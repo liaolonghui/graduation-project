@@ -1,7 +1,7 @@
 export const request = (url='', data={}, method='get') => {
   return new Promise((reslove, reject) => {
     wx.request({
-      url: 'https://api-hmugo-web.itheima.net/api/public/v1/' + url,
+      url: 'http://127.0.0.1:666/api/' + url,
       method,
       data,
       success: (result) => {

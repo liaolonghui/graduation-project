@@ -3,13 +3,14 @@
     "pages/index/index",
     "pages/sort/sort",
     "pages/cart/cart",
-    "pages/user/user"
+    "pages/user/user",
+    "pages/search/search"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#eb4450",
     "navigationBarTitleText": "扶贫购物",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "color": "#999",

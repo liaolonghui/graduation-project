@@ -1,4 +1,17 @@
 <!--index.wxml-->
 <view class="index">
-  首页
+  <!-- searchBar -->
+  <SearchBar />
+  <!-- swiper -->
+  <view class="index_swiper">
+    <swiper autoplay indicator-dots circular>
+      <swiper-item wx:for="{{swiperList}}" wx:key="area_id">
+        <navigator url="{{item.navigator_url}}" open-type="{{item.open_type}}">
+          <image mode="widthFix" src="{{item.img_src}}"></image>
+        </navigator>
+      </swiper-item>
+    </swiper>
+  </view>
+  <!-- ... -->
+  俺是首页
 </view>

@@ -1,0 +1,14 @@
+/* components/SearchBar/SearchBar.wxss */
+.search_index {
+  height: 90rpx;
+  padding: 10rpx;
+  background-color: #eb4450;
+}
+navigator {
+  height: 70rpx;
+  line-height: 70rpx;
+  text-align: center;
+  color: #666;
+  border-radius: 15rpx;
+  background-color: #fff;
+}
