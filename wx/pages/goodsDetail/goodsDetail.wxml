@@ -1,0 +1,4 @@
+<!--pages/goodsDetail/goodsDetail.wxml-->
+<view class="goods_detail">
+  商品的ID是：{{goodsId}}
+</view>

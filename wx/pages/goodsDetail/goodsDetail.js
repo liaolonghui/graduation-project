@@ -1,32 +1,19 @@
-// pages/search/search.js
+// pages/goodsDetail/goodsDetail.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    searchParam: '',
-    searchArea: '全国',
-    searchType: '全部',
+    goodsId: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    if (options.area !== '年货') {
-      this.setData({
-        searchArea: options.area
-      })
-    }
     this.setData({
-      searchType: options.type
-    })
-  },
-
-  bindSearchParam (e) {
-    this.setData({
-      searchParam: e.detail.value
+      goodsId: options.goodsId
     })
   },
 

@@ -9,9 +9,12 @@ Page({
     // 轮播图数据
     swiperList: [],
     // 导航数据
-    catesList: [],
-    // 楼层数据
-    floorList: []
+    navBarList: [],
+    // 推荐
+    recommend: [],
+    // 地区数据
+    areaBarTitleImg: '',
+    areaBarList: []
   },
 
   /**
@@ -19,12 +22,37 @@ Page({
    */
   onLoad: function (options) {
     this.getSwiperList()
+    this.getNavBarList()
+    this.getRecommend()
+    this.getAreaBarList()
   },
 
   async getSwiperList () {
     const res = await request('getSwiperList')
     this.setData({
       swiperList: res.data.swiperList
+    })
+  },
+
+  async getNavBarList () {
+    const res = await request('getNavBarList')
+    this.setData({
+      navBarList: res.data.navBarList
+    })
+  },
+
+  async getRecommend () {
+    const res = await request('getRecommend')
+    this.setData({
+      recommend: res.data.recommend
+    })
+  },
+
+  async getAreaBarList () {
+    const res = await request('getAreaBarList')
+    this.setData({
+      areaBarTitleImg: res.data.areaBarTitleImg,
+      areaBarList: res.data.areaBarList
     })
   },
 

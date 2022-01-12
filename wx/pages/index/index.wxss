@@ -1,8 +1,56 @@
 /**index.wxss**/
+/* 轮播图 */
 .index_swiper swiper {
   width: 750rpx;
   height: 340rpx;
 }
 .index_swiper swiper image {
+  width: 100%;
+}
+/* 导航 */
+.index_navBar .navBar_wrap {
+  display: flex;
+  padding: 15rpx 0;
+}
+.index_navBar .navBar_item {
+  flex: 1;
+}
+.index_navBar .navBar_item navigator {
+  display: block;
+  height: auto;
+  line-height: auto;
+}
+.index_navBar .navBar_item image {
+  display: block;
+  width: 100%;
+}
+/* 推荐 */
+.index_recommend {
+  padding-bottom: 10rpx;
+}
+.index_recommend .recommend_item {
+  display: inline-block;
+  width: 50%;
+}
+.index_recommend .recommend_item image {
+  display: block;
+  width: 100%;
+}
+/* 地区 */
+.index_areaBar {
+  padding-bottom: 30rpx;
+}
+.index_areaBar .areaBar_title {
+  padding: 5rpx 0;
+}
+.index_areaBar .areaBar_title image {
+  width: 400rpx;
+}
+.index_areaBar .areaBar_content_item {
+  display: inline-block;
+  width: 33.33%;
+}
+.index_areaBar .areaBar_content_item image {
+  display: block;
   width: 100%;
 }

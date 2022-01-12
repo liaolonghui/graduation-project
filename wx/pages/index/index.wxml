@@ -4,7 +4,7 @@
   <SearchBar />
   <!-- swiper -->
   <view class="index_swiper">
-    <swiper autoplay indicator-dots circular>
+    <swiper interval="3000" autoplay indicator-dots circular>
       <swiper-item wx:for="{{swiperList}}" wx:key="area_id">
         <navigator url="{{item.navigator_url}}" open-type="{{item.open_type}}">
           <image mode="widthFix" src="{{item.img_src}}"></image>
@@ -12,6 +12,39 @@
       </swiper-item>
     </swiper>
   </view>
-  <!-- ... -->
-  俺是首页
+  <!-- navBar -->
+  <view class="index_navBar">
+    <view class="navBar_wrap">
+      <view class="navBar_item" wx:for="{{navBarList}}" wx:key="type_id">
+        <navigator url="{{item.navigator_url}}" open-type="{{item.open_type}}">
+          <image mode="widthFix" src="{{item.img_src}}"></image>
+        </navigator>
+      </view>
+    </view>
+  </view>
+  <!-- recommend -->
+  <view class="index_recommend">
+    <view class="recommend_wrap">
+      <view class="recommend_item" wx:for="{{recommend}}" wx:key="goods_id">
+        <navigator url="{{item.navigator_url}}" open-type="{{item.open_type}}">
+          <image mode="widthFix" src="{{item.recommend_img}}"></image>
+        </navigator>
+      </view>
+    </view>
+  </view>
+  <!-- areaBar -->
+  <view class="index_areaBar">
+    <view class="areaBar_wrap">
+      <view class="areaBar_title">
+        <image mode="widthFix" src="{{areaBarTitleImg}}"></image>
+      </view>
+      <view class="areaBar_content">
+        <view class="areaBar_content_item" wx:for="{{areaBarList}}" wx:key="area_id">
+          <navigator url="{{item.navigator_url}}" open-type="{{item.open_type}}">
+            <image mode="widthFix" src="{{item.img_src}}"></image>
+          </navigator>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

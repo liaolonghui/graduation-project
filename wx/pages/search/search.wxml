@@ -1,2 +1,12 @@
 <!--pages/search/search.wxml-->
-<text>pages/search/search.wxml</text>
+<input type="text" bindinput="bindSearchParam" value="{{searchParam}}" style="border: 1px solid #000;" />
+<view>
+  当前搜索的内容是：{{searchParam}}
+</view>
+<view>
+  当前搜索的地区是：{{searchArea}}
+</view>
+<view>
+  当前搜索的类型是：{{searchType}}
+</view>
+
