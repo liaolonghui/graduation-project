@@ -59,6 +59,17 @@
           <text class="iconfont icon-fabu"></text>
           <text>发布商品</text>
         </view>
+      </view>
+      <!-- other为管理员专属 -->
+      <view class="other_operation">
+        <view class="operation_item">
+          <text class="iconfont icon-yonhuguanli"></text>
+          <text>用户管理</text>
+        </view>
+        <view class="operation_item">
+          <text class="iconfont icon-fenlei"></text>
+          <text>商品分类</text>
+        </view>
         <view class="operation_item">
           <text class="iconfont icon-shenhe"></text>
           <text>商品审核</text>

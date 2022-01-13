@@ -107,3 +107,6 @@
   font-size: 80rpx;
   margin: 25rpx 0;
 }
+.other_operation {
+  display: flex;
+}
