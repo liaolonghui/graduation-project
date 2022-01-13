@@ -1,5 +1,7 @@
 module.exports = (app, SERVER_URL) => {
   const express = require('express')
+  const axios = require('axios')
+  const jwt = require('jsonwebtoken')
   const router = express.Router()
 
   // 返回swiperList
@@ -194,6 +196,27 @@ module.exports = (app, SERVER_URL) => {
           navigator_url: '/pages/search/search?area=贵州'
         },
       ]
+    })
+  })
+
+  // 微信login
+  router.post('/login', async (req, res) => {
+    const code = req.body.code
+    const appid = 'wx580203372bb581d1'
+    const appsecret = '41969af8489bbb4ff1e00ef8dd5fcc4a'
+    const url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${appsecret}&js_code=${code}&grant_type=authorization_code`
+    
+    const result = await axios.get(url)
+    const userInfo = {
+      session_key: result.data.session_key,
+      openid: result.data.openid
+    }
+    // 得到token
+    const token = jwt.sign(userInfo, app.get('secret'))
+    // console.log(jwt.verify(token, app.get('secret')))
+    
+    res.send({
+      token
     })
   })
 

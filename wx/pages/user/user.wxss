@@ -1,1 +1,109 @@
 /* pages/user/user.wxss */
+.user {
+  min-height: 100vh;
+  background-color: #eee;
+}
+/* userInfo */
+.user_userInfo {
+  position: relative;
+  height: 300rpx;
+  border-bottom-left-radius: 60rpx;
+  border-bottom-right-radius: 60rpx;
+  background-color: #eb4450;
+}
+.user_userInfo .userInfo_wrap {
+  position: absolute;
+  top: 150rpx;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.user_userInfo .userInfo_avatar {
+  flex: 1;
+  margin: 0 10rpx 0 20rpx;
+}
+.user_userInfo .userInfo_avatar image {
+  display: block;
+  width: 100%;
+  border-radius: 50%;
+}
+.user_userInfo .userInfo_nickName {
+  flex: 2;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+.user_userInfo .userInfo_nickName text {
+  color: #000;
+  font-weight: 530;
+  font-size: 36rpx;
+}
+.user_userInfo .userInfo_logout {
+  flex: 2;
+  margin: 0 20rpx 0 10rpx;
+}
+.user_userInfo .userInfo_logout button {
+  width: 120px;
+  border-radius: 30rpx;
+}
+
+/* user_order */
+.user_order {
+  margin: 0 20rpx;
+  padding: 50rpx;
+  border-radius: 80rpx;
+  transform: translateY(-40rpx);
+  background-color: #fff;
+}
+.order_wrap .my_order {
+  font-size: 40rpx;
+  padding: 20rpx 5rpx;
+  border-bottom: 4rpx solid #666;
+}
+.order_wrap .order_type {
+  display: flex;
+  margin: 20rpx 0;
+}
+.order_wrap .order_type_item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.order_wrap .order_type_item > .iconfont {
+  font-size: 70rpx;
+  margin: 10rpx 0;
+  color: #333;
+}
+
+/* user_operation */
+.user_operation {
+  margin: 40rpx 20rpx 0 20rpx;
+  padding: 50rpx;
+  border-radius: 80rpx;
+  transform: translateY(-40rpx);
+  background-color: #fff;
+}
+.operation_wrap .my_operation {
+  font-size: 40rpx;
+  padding: 20rpx 5rpx;
+  border-bottom: 4rpx solid #666;
+}
+.operation_wrap .operations {
+  display: flex;
+  margin: 20rpx 0;
+}
+.operation_wrap .operation_item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.operation_wrap .operation_item > .iconfont {
+  font-size: 80rpx;
+  margin: 25rpx 0;
+}

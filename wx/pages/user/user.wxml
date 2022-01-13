@@ -1,2 +1,69 @@
 <!--pages/user/user.wxml-->
-<text>pages/user/user.wxml</text>
+<view class="user">
+  <!-- userInfo -->
+  <view class="user_userInfo">
+    <view class="userInfo_wrap">
+      <view class="userInfo_avatar">
+        <image mode="widthFix" src="{{userInfo.avatarUrl}}"></image>
+      </view>
+      <view class="userInfo_nickName">
+        <text>{{userInfo.nickName || '未登录'}}</text>
+      </view>
+      <view class="userInfo_logout">
+        <button>{{userInfo.nickName ? '退出登录' : '登录'}}</button>
+      </view>
+    </view>
+  </view>
+  <!-- shop -->
+  <view class="user_order">
+    <view class="order_wrap">
+      <view class="my_order">
+        我的订单
+      </view>
+      <view class="order_type">
+        <view class="order_type_item">
+          <text class="iconfont icon-daifukuan"></text>
+          <text>待付款</text>
+        </view>
+        <view class="order_type_item">
+          <text class="iconfont icon-daifahuo"></text>
+          <text>待发货</text>
+        </view>
+        <view class="order_type_item">
+          <text class="iconfont icon-daishouhuo"></text>
+          <text>待收货</text>
+        </view>
+        <view class="order_type_item">
+          <text class="iconfont icon-daipingjia"></text>
+          <text>待评价</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- operation -->
+  <view class="user_operation">
+    <view class="operation_wrap">
+      <view class="my_operation">
+        常用功能
+      </view>
+      <view class="operations">
+        <view class="operation_item" bindtap="chooseAddress">
+          <text class="iconfont icon-shouhuodizhi"></text>
+          <text>收货地址</text>
+        </view>
+        <view class="operation_item">
+          <text class="iconfont icon-wodeshoucang"></text>
+          <text>我的收藏</text>
+        </view>
+        <view class="operation_item">
+          <text class="iconfont icon-fabu"></text>
+          <text>发布商品</text>
+        </view>
+        <view class="operation_item">
+          <text class="iconfont icon-shenhe"></text>
+          <text>商品审核</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

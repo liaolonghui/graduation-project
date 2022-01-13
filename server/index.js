@@ -6,7 +6,8 @@ const SERVER_PORT = 666
 const SERVER_URL = `http://127.0.0.1:${SERVER_PORT}`
 
 const app = express()
-
+// secret
+app.set('secret', 'ayqwysdgyqwidiwqashbgdihdiashdihaid')
 
 app.use(cors()) // cors
 app.use(express.json()) // 获取json数据
