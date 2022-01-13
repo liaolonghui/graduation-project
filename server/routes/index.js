@@ -2,7 +2,11 @@ module.exports = (app, SERVER_URL) => {
   const express = require('express')
   const axios = require('axios')
   const jwt = require('jsonwebtoken')
+  const multer = require('multer')
   const router = express.Router()
+
+  // models
+  const User = require('../models/User')
 
   // 返回swiperList
   router.get('/getSwiperList', (req, res, next) => {
@@ -199,8 +203,80 @@ module.exports = (app, SERVER_URL) => {
     })
   })
 
-  // 微信login
+  // login
   router.post('/login', async (req, res) => {
+    const newU = req.body
+    const oldU = await User.findOne({
+      accountNumber: newU.accountNumber
+    }).select('+password')
+
+    if (!oldU || !require('bcrypt').compareSync(newU.password, oldU.password)) {
+      res.send({
+        code: 'bad',
+        msg: '登录失败'
+      })
+    } else {
+      // 得到token
+      const token = jwt.sign({ id: oldU._id }, app.get('secret'))
+      // console.log(jwt.verify(token, app.get('secret')))
+      
+      res.send({
+        code: 'ok',
+        token
+      })
+    }
+  })
+  // 获取用户信息
+  router.get('/getUserInfo', async (req, res) => {
+    const token = req.headers.authorization
+    const {id} = jwt.verify(token, app.get('secret'))
+    const user = await User.findById(id)
+
+    res.send({
+      code: 'ok',
+      avatar: user.avatar,
+      nickName: user.nickName
+    })
+  })
+  // 头像的上传
+  const avatarUp = multer({ dest: 'avatars/' })
+  router.post('/uploadAvatar', avatarUp.single('avatar'), (req, res) => {
+    res.send({
+      code: 'ok',
+      name: req.file.originalname,
+      path: SERVER_URL+'/avatars/'+req.file.filename
+    })
+  })
+  // register
+  router.post('/register', async (req, res) => {
+    const user = {
+      ...req.body,
+      power: 'none'
+    }
+    const u = await User.findOne({
+      accountNumber: req.body.accountNumber
+    })
+    console.log(u)
+    if (u) {
+      return res.send({
+        code: 'bad',
+        msg: '该账号已被人注册'
+      })
+    }
+    const result = await User.create(user)
+    if (result) {
+      res.send({
+        code: 'ok'
+      })
+    } else {
+      res.send({
+        code: 'bad',
+        msg: '注册失败，请重试！'
+      })
+    }
+  })
+  // bindWX 账号绑定微信
+  router.post('/bindWX', async (req, res) => {
     const code = req.body.code
     const appid = 'wx580203372bb581d1'
     const appsecret = '41969af8489bbb4ff1e00ef8dd5fcc4a'
@@ -211,14 +287,12 @@ module.exports = (app, SERVER_URL) => {
       session_key: result.data.session_key,
       openid: result.data.openid
     }
-    // 得到token
-    const token = jwt.sign(userInfo, app.get('secret'))
-    // console.log(jwt.verify(token, app.get('secret')))
-    
+
     res.send({
-      token
+      isok: '成功'
     })
   })
+
 
   app.use('/api', router)
 } 

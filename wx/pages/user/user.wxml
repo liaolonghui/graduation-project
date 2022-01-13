@@ -1,16 +1,18 @@
 <!--pages/user/user.wxml-->
 <view class="user">
   <!-- userInfo -->
-  <view class="user_userInfo">
+  <view class="user_userInfo" bindtap="login">
     <view class="userInfo_wrap">
       <view class="userInfo_avatar">
-        <image mode="widthFix" src="{{userInfo.avatarUrl}}"></image>
+        <image wx:if="{{userInfo.avatar}}" src="{{userInfo.avatar}}"></image>
+        <text wx:else class="iconfont icon-yonhuguanli"></text>
       </view>
       <view class="userInfo_nickName">
         <text>{{userInfo.nickName || '未登录'}}</text>
       </view>
       <view class="userInfo_logout">
-        <button>{{userInfo.nickName ? '退出登录' : '登录'}}</button>
+        <button wx:if="{{userInfo.nickName}}" catchtap="logout">退出登录</button>
+        <button wx:else>登录</button>
       </view>
     </view>
   </view>

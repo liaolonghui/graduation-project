@@ -1,0 +1,34 @@
+<!--pages/login/login.wxml-->
+<view class="login">
+  <form catchsubmit="formSubmit" class="login_form">
+    <view class="account_info">
+      <!-- 账号 -->
+      <view class="account_number">
+        <input
+          data-index="1"
+          class="{{activeIndex == 1 ? 'input_active' : ''}}"
+          name="accountNumber"
+          placeholder="请输入账号"
+          bindfocus="formInputFocus"
+          bindblur="formInputBlur"
+        />
+      </view>
+      <!-- 密码 -->
+      <view class="password">
+        <input
+          data-index="2"
+          class="{{activeIndex == 2 ? 'input_active' : ''}}"
+          type="password"
+          name="password"
+          placeholder="请输入密码"
+          bindfocus="formInputFocus"
+          bindblur="formInputBlur"
+        />
+      </view>
+    </view>
+    <view class="btn-area">
+      <button type="primary" formType="submit">登录</button>
+      <button class="register_btn" bindtap="register">注册</button>
+    </view>
+  </form>
+</view>

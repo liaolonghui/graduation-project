@@ -14,54 +14,54 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 如果用户没有登录就让他登录
-    const that = this
-    wx.checkSession({
-      success () {
-        //session_key 未过期，并且在本生命周期一直有效
-        // 如果session_key未过期 但是本地没有token时
-        const token = wx.getStorageSync('token')
-        if (!token) {
-          // 登录
-          that.login()
-        }
-      },
-      fail () {
-        // session_key 已经失效，需要重新执行登录流程
-        //重新登录
-        that.login()
-      },
-      complete () {
-        // 最后获取一下用户信息
-        wx.getUserInfo({
-          success (res) {
-            that.setData({
-              userInfo: res.userInfo
-            })
+    this.getUserInfo()
+  },
+
+  // 获取用户信息
+  async getUserInfo () {
+    // 如果有token就直接获取用户信息 (要确保userInfo为空对象，这里判断nickName即可)
+    const token = wx.getStorageSync('token')
+    const nickName = this.data.userInfo.nickName
+    if (token && !nickName) {
+      // 发请求获取用户信息
+      const res = await request('getUserInfo', {}, 'get', {
+        authorization: token
+      })
+      if (res.data.code == 'ok') {
+        this.setData({
+          userInfo: {
+            avatar: res.data.avatar,
+            nickName: res.data.nickName
           }
         })
       }
-    })
+    }
   },
 
-  // 登录
+  // 去登录页面
   login () {
-    wx.login({
-      async success(res) {
-        if (res.code) {
-          const result = await request('login', {
-            code: res.code
-          }, 'post')
-          if (result.data.token) {
-            // 把获取到的用户信息保存
-            wx.setStorageSync('token', result.data.token)
-          }
-        }
-      }
+    if (this.data.userInfo.nickName) {
+      // 如果有用户名就表示已经登录了，所以不跳转到login页
+      return
+    }
+    wx.navigateTo({
+      url: '../login/login',
     })
   },
 
-  // 选择收货地址
+  // 退出登录
+  logout () {
+    if (!this.data.userInfo.nickName) {
+      // 如果没有用户名就表示未登录，所以不要往下执行
+      return
+    }
+    this.setData({
+      userInfo: {}
+    })
+    wx.removeStorageSync('token')
+  },
+
+  // 选择收货地址 ?  其实作用是查看或添加收获地址
   chooseAddress () {
     wx.chooseAddress({
       success (res) {
@@ -85,7 +85,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getUserInfo()
   },
 
   /**

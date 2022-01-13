@@ -23,10 +23,20 @@
 .user_userInfo .userInfo_avatar {
   flex: 1;
   margin: 0 10rpx 0 20rpx;
+  text-align: center;
 }
 .user_userInfo .userInfo_avatar image {
   display: block;
-  width: 100%;
+  width: 120rpx;
+  height: 120rpx;
+  border: 4rpx solid #eee;
+  border-radius: 50%;
+}
+.user_userInfo .userInfo_avatar text::before {
+  color: #eee;
+  font-size: 60rpx;
+  padding: 20rpx;
+  border: 4rpx solid #eee;
   border-radius: 50%;
 }
 .user_userInfo .userInfo_nickName {
@@ -36,7 +46,7 @@
   text-overflow: ellipsis;
 }
 .user_userInfo .userInfo_nickName text {
-  color: #000;
+  color: #222;
   font-weight: 530;
   font-size: 36rpx;
 }
@@ -46,6 +56,7 @@
 }
 .user_userInfo .userInfo_logout button {
   width: 120px;
+  color: #555;
   border-radius: 30rpx;
 }
 

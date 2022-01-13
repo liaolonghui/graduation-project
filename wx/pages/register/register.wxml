@@ -1,0 +1,28 @@
+<view class="register">
+  <form catchsubmit="register">
+    <view class="account_info">
+      <!-- 头像 -->
+      <view class="avatar" bindtap="chooseImage">
+        <image wx:if="{{avatar}}" mode="widthFix" src="{{avatar}}" ></image>
+        <view wx:else class="avatar_add">
+          十
+        </view>
+      </view>
+      <!-- 昵称 -->
+      <view class="nick_name">
+        <input name="nickName" placeholder="请输入昵称" />
+      </view>
+      <!-- 账号 -->
+      <view class="account_number">
+        <input name="accountNumber" placeholder="请输入账号" />
+      </view>
+      <!-- 密码 -->
+      <view class="account_number">
+        <input type="password" name="password" placeholder="请输入密码" />
+      </view>
+    </view>
+    <view class="btn-area">
+      <button class="register_btn" formType="submit">注册</button>
+    </view>
+  </form>
+</view>

@@ -1,0 +1,33 @@
+/* pages/login/login.wxss */
+.login {
+  height: 100vh;
+  padding: 40rpx 20rpx 0 20rpx;
+  background-color: #fafafa;
+  box-sizing: border-box;
+}
+.login .account_info > view > input {
+  height: 100rpx;
+  line-height: 100rpx;
+  margin: 40rpx 0;
+  padding-left: 40rpx;
+  border: 1px solid #999;
+  border-radius: 30rpx;
+}
+.login .account_info > view > input.input_active {
+  border: 1px solid transparent;
+  box-shadow: 0 0 15px 10px #aaa;
+}
+.login .btn-area {
+  margin-top: 80rpx;
+}
+.login .btn-area > button {
+  width: 100%;
+  margin: 30rpx 0;
+  padding: 22rpx;
+  color: #fff;
+  border-radius: 40rpx;
+  box-sizing: border-box;
+}
+.login button.register_btn {
+  background-color: skyblue;
+}
