@@ -1,2 +1,58 @@
 <!--pages/goodsCategory/goodsCategory.wxml-->
-<text>pages/goodsCategory/goodsCategory.wxml</text>
+<view class="goods_category">
+  <!-- add-btn -->
+  <view class="add_category_btn">
+    <button type="primary" bindtap="showCategoryDialog">添加新分类</button>
+  </view>
+  <!-- 分类列表 -->
+  <view class="category_list_wrap">
+    <view class="category_list">
+      <view class="category_item" wx:for="{{categoryList}}" wx:key="_id">
+        <view class="category_info">
+          {{item.name}}
+          {{item.level}}
+        </view>
+        <view class="category_btn">
+          <button>修改</button>
+          <button type="warn">删除</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加或修改分类的对话框 -->
+  <view class="dialog {{ showDialog || 'dialog_hidden' }}">
+    <!-- 遮罩层 -->
+    <view class="dialog_mask"></view>
+    <!-- 内容 -->
+    <view class="dialog_content">
+      <form catchsubmit="addCategory">
+        <view class="category_level">
+          <!-- 级别 -->
+          <picker bindchange="bindLevelPickerChange" value="{{level}}" range="{{array}}">
+            <view class="picker">
+              当前分类级别：{{array[level]}}
+            </view>
+          </picker>
+        </view>
+        <view class="category_parent">
+          <!-- 父分类 -->
+          <picker bindchange="bindParentPickerChange" value="{{parentIndex}}" range="{{categories}}">
+            <view class="picker">
+              父分类：{{array[parentIndex].name || '无'}}
+            </view>
+          </picker>
+        </view>
+        <view class="category_name">
+          <!-- 分类名 -->
+          <input type="text" value="{{categoryName}}" bindinput="categoryNameChange" placeholder="请填写分类名" />
+        </view>
+        <view class="category_btn_area">
+          <button type="primary" formType="submit">确认</button>
+          <button class="blue_btn" bindtap="cancelCategory">取消</button>
+        </view>
+      </form>
+    </view>
+  </view>
+
+</view>

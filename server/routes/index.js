@@ -7,6 +7,54 @@ module.exports = (app, SERVER_URL) => {
 
   // models
   const User = require('../models/User')
+  const Category = require('../models/Category')
+
+
+  // Category  （可接受 query: { level } 用于获取对应级别的分类）  1<=level<=3
+  router.get('/getCategory', async (req, res) => {
+    const { level } = req.query
+
+    let result = []
+    if (level>=1 && level<=3) {
+      result = await Category.find({
+        level: level-1
+      })
+    } else {
+      result = await Category.find()
+    }
+    
+    res.send({
+      code: 'ok',
+      categories: result
+    })
+  })
+  router.post('/addCategory', async (req, res) => {
+    const category = req.body
+    
+    const result = await Category.create(category)
+
+    if (!result) return res.send({
+      code: 'bad'
+    })
+
+    res.send({
+      code: 'ok'
+    })
+  })
+  router.put('/updateCategory', async (req, res) => {
+    const { id, newData } = req.body
+    await Category.findByIdAndUpdate(id, newData)
+    res.send({
+      code: 'ok'
+    })
+  })
+  router.delete('/deleteCategory/:id', async (req, res) => {
+    await Category.findByIdAndDelete(req.params.id)
+    res.send({
+      code: 'ok'
+    })
+  })
+
 
   // 返回swiperList
   router.get('/getSwiperList', (req, res, next) => {
@@ -276,7 +324,8 @@ module.exports = (app, SERVER_URL) => {
       })
     }
   })
-  // bindWX 账号绑定微信
+
+  // bindWX 账号绑定微信 (待完成)
   router.post('/bindWX', async (req, res) => {
     const code = req.body.code
     const appid = 'wx580203372bb581d1'
