@@ -7,7 +7,20 @@ Page({
    * 页面的初始数据
    */
   data: {
-    avatar: ''
+    avatar: '',
+    // 用于控制输入框的样式修改
+    activeIndex: 0,
+  },
+
+  bindInputFocus (e) {
+    this.setData({
+      activeIndex: e.currentTarget.dataset.index
+    })
+  },
+  bindInputBlur () {
+    this.setData({
+      activeIndex: 0
+    })
   },
 
   /**

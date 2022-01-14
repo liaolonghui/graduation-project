@@ -235,7 +235,8 @@ module.exports = (app, SERVER_URL) => {
     res.send({
       code: 'ok',
       avatar: user.avatar,
-      nickName: user.nickName
+      nickName: user.nickName,
+      power: user.power, // 权限
     })
   })
   // 头像的上传

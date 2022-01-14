@@ -10,15 +10,37 @@
       </view>
       <!-- 昵称 -->
       <view class="nick_name">
-        <input name="nickName" placeholder="请输入昵称" />
+        <input
+          data-index="1"
+          class="{{ activeIndex == '1' && 'input_active' }}"
+          bindfocus="bindInputFocus"
+          bindblur="bindInputBlur"
+          name="nickName"
+          placeholder="请输入昵称"
+        />
       </view>
       <!-- 账号 -->
       <view class="account_number">
-        <input name="accountNumber" placeholder="请输入账号" />
+        <input
+          data-index="2"
+          class="{{ activeIndex == '2' && 'input_active' }}"
+          bindfocus="bindInputFocus"
+          bindblur="bindInputBlur"
+          name="accountNumber"
+          placeholder="请输入账号"
+        />
       </view>
       <!-- 密码 -->
       <view class="account_number">
-        <input type="password" name="password" placeholder="请输入密码" />
+        <input
+          data-index="3"
+          class="{{ activeIndex == '3' && 'input_active' }}"
+          bindfocus="bindInputFocus"
+          bindblur="bindInputBlur"
+          type="password"
+          name="password"
+          placeholder="请输入密码"
+        />
       </view>
     </view>
     <view class="btn-area">

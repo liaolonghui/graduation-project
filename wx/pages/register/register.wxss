@@ -14,7 +14,7 @@
 }
 .register .account_info > view > input.input_active {
   border: 1px solid transparent;
-  box-shadow: 0 0 15px 10px #aaa;
+  box-shadow: 0 0 15px 10px #ccc;
 }
 .register .btn-area {
   margin-top: 80rpx;
@@ -35,7 +35,7 @@
   display: flex;
   width: 200rpx;
   height: 200rpx;
-  margin: 0 auto;
+  margin: 40rpx auto 10rpx auto;
   justify-content: center;
   align-items: center;
   border: 4rpx solid #999;

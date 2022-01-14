@@ -31,7 +31,8 @@ Page({
         this.setData({
           userInfo: {
             avatar: res.data.avatar,
-            nickName: res.data.nickName
+            nickName: res.data.nickName,
+            power: res.data.power
           }
         })
       }
@@ -63,16 +64,147 @@ Page({
 
   // 选择收货地址 ?  其实作用是查看或添加收获地址
   chooseAddress () {
+    const nickName = this.data.userInfo.nickName
+    if (!nickName) {
+      // 未登录则跳转至登录页
+      wx.navigateTo({
+        url: '../login/login',
+      })
+      wx.showToast({
+        title: '您还未登录，请先登录！',
+        icon: 'none',
+        duration: 1500
+      })
+      return
+    }
     wx.chooseAddress({
       success (res) {
         console.log(res)
       }
     })
   },
-
-  // 发布商品
-
-  // 商品审核
+  // 去收藏页
+  toUserFavorites () {
+    const nickName = this.data.userInfo.nickName
+    if (!nickName) {
+      // 未登录则跳转至登录页
+      wx.navigateTo({
+        url: '../login/login',
+      })
+      wx.showToast({
+        title: '您还未登录，请先登录！',
+        icon: 'none',
+        duration: 1500
+      })
+      return
+    }
+    wx.navigateTo({
+      url: '../userFavorites/userFavorites',
+    })
+  },
+  // 发布商品页
+  togoodsRealease () {
+    const nickName = this.data.userInfo.nickName
+    if (!nickName) {
+      // 未登录则跳转至登录页
+      wx.navigateTo({
+        url: '../login/login',
+      })
+      wx.showToast({
+        title: '您还未登录，请先登录！',
+        icon: 'none',
+        duration: 1500
+      })
+      return
+    }
+    wx.navigateTo({
+      url: '../goodsRelease/goodsRelease',
+    })
+  },
+  // 用户管理  管理员专属
+  toUserManagement () {
+    const {nickName, power} = this.data.userInfo
+    if (!nickName) {
+      // 未登录则跳转至登录页
+      wx.navigateTo({
+        url: '../login/login',
+      })
+      wx.showToast({
+        title: '您还未登录，请先登录！',
+        icon: 'none',
+        duration: 1500
+      })
+      return
+    }
+    // 判断power是否为 super
+    if (power != 'super') {
+      // 不是管理员则提示
+      return wx.showToast({
+        title: '权限不足',
+        icon: 'none',
+        duration: 1000
+      })
+    }
+    wx.navigateTo({
+      url: '../userManagement/userManagement',
+    })
+  },
+  // 分类 管理员专属
+  toGoodsCategory () {
+    const {nickName, power} = this.data.userInfo
+    if (!nickName) {
+      // 未登录则跳转至登录页
+      wx.navigateTo({
+        url: '../login/login',
+      })
+      wx.showToast({
+        title: '您还未登录，请先登录！',
+        icon: 'none',
+        duration: 1500
+      })
+      return
+    }
+    // 判断power是否为 super
+    if (power != 'super') {
+      // 不是管理员则提示
+      return wx.showToast({
+        title: '权限不足',
+        icon: 'none',
+        duration: 1000
+      })
+    }
+    wx.navigateTo({
+      url: '../goodsCategory/goodsCategory',
+    })
+  },
+  // 商品审核 管理员专属
+  toGoodsAudit () {
+    const {nickName, power} = this.data.userInfo
+    if (!nickName) {
+      // 未登录则跳转至登录页
+      wx.navigateTo({
+        url: '../login/login',
+      })
+      wx.showToast({
+        title: '您还未登录，请先登录！',
+        icon: 'none',
+        duration: 1500
+      })
+      return
+    }
+    // 判断power是否为 super
+    if (power != 'super') {
+      // 不是管理员则提示
+      return wx.showToast({
+        title: '权限不足',
+        icon: 'none',
+        duration: 1000
+      })
+    }
+    wx.navigateTo({
+      url: '../goodsAudit/goodsAudit',
+    })
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

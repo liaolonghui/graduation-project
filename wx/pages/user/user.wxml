@@ -53,26 +53,26 @@
           <text class="iconfont icon-shouhuodizhi"></text>
           <text>收货地址</text>
         </view>
-        <view class="operation_item">
+        <view class="operation_item" bindtap="toUserFavorites">
           <text class="iconfont icon-wodeshoucang"></text>
           <text>我的收藏</text>
         </view>
-        <view class="operation_item">
+        <view class="operation_item" bindtap="togoodsRealease">
           <text class="iconfont icon-fabu"></text>
           <text>发布商品</text>
         </view>
       </view>
       <!-- other为管理员专属 -->
       <view class="other_operation">
-        <view class="operation_item">
+        <view class="operation_item" bindtap="toUserManagement">
           <text class="iconfont icon-yonhuguanli"></text>
           <text>用户管理</text>
         </view>
-        <view class="operation_item">
+        <view class="operation_item" bindtap="toGoodsCategory">
           <text class="iconfont icon-fenlei"></text>
           <text>商品分类</text>
         </view>
-        <view class="operation_item">
+        <view class="operation_item" bindtap="toGoodsAudit">
           <text class="iconfont icon-shenhe"></text>
           <text>商品审核</text>
         </view>

@@ -15,7 +15,7 @@
 }
 .login .account_info > view > input.input_active {
   border: 1px solid transparent;
-  box-shadow: 0 0 15px 10px #aaa;
+  box-shadow: 0 0 15px 10px #ccc;
 }
 .login .btn-area {
   margin-top: 80rpx;

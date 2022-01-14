@@ -7,7 +7,12 @@
     "pages/search/search",
     "pages/goodsDetail/goodsDetail",
     "pages/login/login",
-    "pages/register/register"
+    "pages/register/register",
+    "pages/userManagement/userManagement",
+    "pages/goodsCategory/goodsCategory",
+    "pages/goodsAudit/goodsAudit",
+    "pages/goodsRelease/goodsRelease",
+    "pages/userFavorites/userFavorites"
   ],
   "window": {
     "backgroundTextStyle": "light",
