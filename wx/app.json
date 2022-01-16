@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/goodsCategory/goodsCategory",
     "pages/index/index",
     "pages/sort/sort",
     "pages/cart/cart",
@@ -10,7 +9,7 @@
     "pages/login/login",
     "pages/register/register",
     "pages/userManagement/userManagement",
-    
+    "pages/goodsCategory/goodsCategory",    
     "pages/goodsAudit/goodsAudit",
     "pages/goodsRelease/goodsRelease",
     "pages/userFavorites/userFavorites"

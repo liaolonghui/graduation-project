@@ -9,12 +9,12 @@
     <view class="category_list">
       <view class="category_item" wx:for="{{categoryList}}" wx:key="_id">
         <view class="category_info">
-          {{item.name}}
-          {{item.level}}
+          <view class="category_name">{{item.name}}</view>
+          <view class="`tag tag_{{ item.level }}`">{{item.level}}</view>
         </view>
         <view class="category_btn">
-          <button>修改</button>
-          <button type="warn">删除</button>
+          <button bindtap="showUpdateCategoryDialog" data-index="{{index}}">修改</button>
+          <button type="warn" bindtap="deleteCategory" data-index="{{index}}">删除</button>
         </view>
       </view>
     </view>
@@ -23,10 +23,10 @@
   <!-- 添加或修改分类的对话框 -->
   <view class="dialog {{ showDialog || 'dialog_hidden' }}">
     <!-- 遮罩层 -->
-    <view class="dialog_mask"></view>
+    <view class="dialog_mask" bindtap="cancelCategory"></view>
     <!-- 内容 -->
     <view class="dialog_content">
-      <form catchsubmit="addCategory">
+      <form catchsubmit="addOrUpdateCategory">
         <view class="category_level">
           <!-- 级别 -->
           <picker bindchange="bindLevelPickerChange" value="{{level}}" range="{{array}}">
@@ -37,9 +37,9 @@
         </view>
         <view class="category_parent">
           <!-- 父分类 -->
-          <picker bindchange="bindParentPickerChange" value="{{parentIndex}}" range="{{categories}}">
+          <picker bindchange="bindParentPickerChange" value="{{parentIndex}}" range="{{categoryNames}}">
             <view class="picker">
-              父分类：{{array[parentIndex].name || '无'}}
+              父分类：{{categoryNames[parentIndex] || '无'}}
             </view>
           </picker>
         </view>

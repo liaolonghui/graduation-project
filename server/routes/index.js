@@ -42,8 +42,8 @@ module.exports = (app, SERVER_URL) => {
     })
   })
   router.put('/updateCategory', async (req, res) => {
-    const { id, newData } = req.body
-    await Category.findByIdAndUpdate(id, newData)
+    const { id, newCategory } = req.body
+    await Category.findByIdAndUpdate(id, newCategory)
     res.send({
       code: 'ok'
     })
