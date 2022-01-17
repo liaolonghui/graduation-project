@@ -10,6 +10,22 @@ module.exports = (app, SERVER_URL) => {
   const Category = require('../models/Category')
 
 
+  const verifyAdmin = async (req, res, next) => {
+    // 验证用户是否有管理员权限
+    // const token = req.headers.authorization
+    // const {id} = jwt.verify(token, app.get('secret'))
+    // const user = await User.findById(id)
+  }
+  // User  修改权限    只有管理员可以
+  router.post('/updatePower', (req, res) => {
+
+  })
+  // 删除用户     只有管理员可以
+  router.post('/deleteUser', (req, res) => {
+    
+  })
+
+
   // Category  （可接受 query: { level } 用于获取对应级别的分类）  1<=level<=3
   router.get('/getCategory', async (req, res) => {
     const { level } = req.query
@@ -54,6 +70,10 @@ module.exports = (app, SERVER_URL) => {
       code: 'ok'
     })
   })
+
+
+  // Goods
+  // 思考中
 
 
   // 返回swiperList

@@ -20,7 +20,7 @@ require('./plugins/db')(app)
 
 // 静态资源
 app.use('/imgs', express.static(path.join(__dirname + '/imgs')))
-app.use('/avatars', express.static(path.join(__dirname + '/avatars')))
+app.use('/avatars', express.static(path.join(__dirname + '/avatars'))) // 头像
 
 // routes
 require('./routes/index.js')(app, SERVER_URL)
