@@ -20,6 +20,9 @@ const schema = new mongoose.Schema({
       type: String
     }
   ],
+  html: { // 详细介绍
+    type: String
+  },
   price: { type: Number }, // 价格 （原价）
   nowPrice: { type: Number }, // 现价
   amount: { type: Number }, // 货存数量
