@@ -1,40 +1,18 @@
-import { request } from "../../request/index"
-
-// pages/goodsRelease/goodsRelease.js
+// pages/goodsAdd/goodsAdd.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    goodsList: [] // 用户发布的商品
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getGoodsList()
-  },
 
-  // 获取goodsList
-  async getGoodsList () {
-    const res = await request('/getGoods', {}, 'get', {
-      authorization: wx.getStorageSync('token')
-    })
-
-    if (res.data.code == 'ok') {
-      this.setData({
-        goodsList: res.data.goodsList
-      })
-    }
-  },
-
-  // 去添加商品的页面
-  toAddGoods () {
-    wx.navigateTo({
-      url: '../goodsAdd/goodsAdd',
-    })
   },
 
   /**

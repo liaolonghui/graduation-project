@@ -1,3 +1,5 @@
+const Goods = require('../models/Goods')
+
 module.exports = (app, SERVER_URL) => {
   const express = require('express')
   const axios = require('axios')
@@ -16,12 +18,8 @@ module.exports = (app, SERVER_URL) => {
     const {id} = jwt.verify(token, app.get('secret'))
     const user = await User.findById(id)
 
-    if (user.power == 'super') {
-      // 管理员
-      req.power = 'super'
-    } else {
-      req.power = 'none'
-    }
+    req.UserId = user._id
+    req.power = user.power
 
     await next()
 
@@ -39,11 +37,31 @@ module.exports = (app, SERVER_URL) => {
   // Goods
   // 添加新商品 （如果是管理员提交的商品就直接通过）
   router.post('/addGoods', verifyAdmin, async (req, res) => {
-    const power = req.power
-    console.log(req.body)
+    const sellerId = req.UserId // 卖家id （也就是发请求的用户id）
+    const power = req.power // 权限
+    const goods = req.body
+
+    const result = await Goods.create({
+      ...goods,
+      seller: sellerId,
+      state: power == 'super' // （如果是管理员提交的商品就直接通过）
+    })
 
     res.send({
+      code: 'ok',
+      result
+    })
+  })
+  router.get('/getGoods', verifyAdmin, async (req, res) => {
+    const userId = req.userId
 
+    const goodsList = await Goods.find({
+      seller: userId
+    })
+
+    res.send({
+      code: 'ok',
+      goodsList
     })
   })
 

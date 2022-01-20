@@ -9,10 +9,11 @@
     "pages/login/login",
     "pages/register/register",
     "pages/userManagement/userManagement",
-    "pages/goodsCategory/goodsCategory",    
+    "pages/goodsCategory/goodsCategory",
     "pages/goodsAudit/goodsAudit",
     "pages/goodsRelease/goodsRelease",
-    "pages/userFavorites/userFavorites"
+    "pages/userFavorites/userFavorites",
+    "pages/goodsAdd/goodsAdd"
   ],
   "window": {
     "backgroundTextStyle": "light",

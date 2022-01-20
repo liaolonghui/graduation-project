@@ -1,1 +1,18 @@
-/* pages/goodsRelease/goodsRelease.wxss */
+.goods_release {
+  padding: 0 20rpx;
+}
+.goods_release .add_goods_btn {
+  margin: 20rpx 0;
+  padding-bottom: 20rpx;
+  border-bottom: 1px solid #ccc;
+}
+.goods_release .add_goods_btn button {
+  width: 100%;
+  padding: 24rpx;
+}
+
+.goods_release .goods_list_wrap .goods_item {
+  padding: 28rpx;
+  border: 1px solid #ccc;
+  border-radius: 25rpx;
+}

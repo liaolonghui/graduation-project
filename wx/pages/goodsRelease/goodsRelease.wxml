@@ -1,2 +1,12 @@
-<!--pages/goodsRelease/goodsRelease.wxml-->
-<text>pages/goodsRelease/goodsRelease.wxml</text>
+<view class="goods_release">
+  <view class="add_goods_btn">
+    <button type="primary" bindtap="toAddGoods">添加新商品</button>
+  </view>
+  <view class="goods_list_wrap">
+    <view class="goods_list">
+      <view class="goods_item" wx:for="{{goodsList}}" wx:key="_id">
+        {{item.name}}
+      </view>
+    </view>
+  </view>
+</view>
