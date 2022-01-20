@@ -12,9 +12,19 @@ module.exports = (app, SERVER_URL) => {
 
   const verifyAdmin = async (req, res, next) => {
     // 验证用户是否有管理员权限
-    // const token = req.headers.authorization
-    // const {id} = jwt.verify(token, app.get('secret'))
-    // const user = await User.findById(id)
+    const token = req.headers.authorization
+    const {id} = jwt.verify(token, app.get('secret'))
+    const user = await User.findById(id)
+
+    if (user.power == 'super') {
+      // 管理员
+      req.power = 'super'
+    } else {
+      req.power = 'none'
+    }
+
+    await next()
+
   }
   // User  修改权限    只有管理员可以
   router.post('/updatePower', (req, res) => {
@@ -26,7 +36,20 @@ module.exports = (app, SERVER_URL) => {
   })
 
 
-  // Category  （可接受 query: { level } 用于获取对应级别的分类）  1<=level<=3
+  // Goods
+  // 添加新商品 （如果是管理员提交的商品就直接通过）
+  router.post('/addGoods', verifyAdmin, async (req, res) => {
+    const power = req.power
+    console.log(req.body)
+
+    res.send({
+
+    })
+  })
+
+
+  // Category  
+  // 获取分类列表（可接受 query: { level } 用于获取对应级别的分类）  1<=level<=3
   router.get('/getCategory', async (req, res) => {
     const { level } = req.query
 
@@ -70,10 +93,6 @@ module.exports = (app, SERVER_URL) => {
       code: 'ok'
     })
   })
-
-
-  // Goods
-  // 思考中
 
 
   // 返回swiperList

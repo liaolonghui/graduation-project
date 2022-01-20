@@ -114,13 +114,13 @@ Page({
           parent
         }
       }, 'put')
+      title = '修改分类成功'
     } else {
       result = await request('addCategory', {
         name,
         level,
         parent
       }, 'post')
-      title = '修改分类成功'
     }
 
     if (result.data.code == 'ok') {

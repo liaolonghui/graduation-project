@@ -68,6 +68,9 @@
 
 
 /* dialog对话框 */
+.goods_category {
+  position: relative;
+}
 .dialog {
   position: absolute;
   top: 0;
@@ -83,9 +86,9 @@
   background-color: #000;
 }
 .dialog .dialog_content {
-  position: absolute;
+  position: fixed;
   left: 50%;
-  top: 15%;
+  top: 220rpx;
   transform: translateX(-50%);
   min-width: 500rpx;
   padding: 60rpx;

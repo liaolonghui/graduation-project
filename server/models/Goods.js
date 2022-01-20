@@ -32,7 +32,10 @@ const schema = new mongoose.Schema({
       time: String, // 评价发布时间
       content: String,
     }
-  ]
+  ],
+  state: { // 商品是否通过审核  （如果是管理员提交的商品就直接通过）
+    type: Boolean
+  }
 })
 
 module.exports = mongoose.model('Goods', schema)
