@@ -74,7 +74,7 @@ module.exports = (app, SERVER_URL) => {
     let result = []
     if (level>=1 && level<=3) {
       result = await Category.find({
-        level: level-1
+        level
       })
     } else {
       result = await Category.find()

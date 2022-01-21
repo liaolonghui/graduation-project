@@ -1,2 +1,55 @@
-<!--pages/goodsAdd/goodsAdd.wxml-->
-<text>pages/goodsAdd/goodsAdd.wxml</text>
+<view class="goods_add">
+  <form catchsubmit="formSubmit">
+    <!-- name -->
+    <view class="goods_info_item">
+      <input name="name" placeholder="商品名称" />
+    </view>
+    <!-- price 原价 -->
+    <view class="goods_info_item">
+      <input name="price" placeholder="原价" />
+    </view>
+    <!-- nowPrice 现价 -->
+    <view class="goods_info_item">
+      <input name="nowPrice" placeholder="现价" />
+    </view>
+    <!-- amount 货存 -->
+    <view class="goods_info_item">
+      <input name="amount" placeholder="货存" />
+    </view>
+    <!-- tele 售后电话 -->
+    <view class="goods_info_item">
+      <input name="tele" placeholder="售后电话" />
+    </view>
+    <!-- area -->
+    <view class="goods_info_item">
+      <view>所属地区</view>
+      <picker bindchange="bindAreaPickerChange" name="area" value="{{areaIndex}}" range="{{areas}}">
+        <view class="picker">
+          当前选择：{{areas[areaIndex]}}
+        </view>
+      </picker>
+    </view>
+    <!-- category -->
+    <view class="goods_info_item">
+      <view>所属分类</view>
+      <picker bindchange="bindCategoryPickerChange" name="category" value="{{categoryIndex}}" range="{{categoryNames}}">
+        <view class="picker">
+          当前选择：{{categoryNames[categoryIndex]}}
+        </view>
+      </picker>
+    </view>
+    <!-- imgs -->
+    <view class="goods_info_item">
+      imgs .... 
+    </view>
+    <!-- html 即富文本 -->
+    <view class="goods_info_item">
+      <editor name="html"></editor>
+    </view>
+
+    <!-- btn -->
+    <view class="btn-area">
+      <button style="margin: 30rpx 0" type="primary" formType="submit">Submit</button>
+    </view>
+  </form>
+</view>

@@ -29,8 +29,7 @@ Page({
       level: e.detail.value
     })
     // level发生变化后就发请求获取categories
-    // 因为level从0开始 所以要+1
-    this.getCategoryList(parseInt(e.detail.value) + 1)
+    this.getCategoryList(parseInt(e.detail.value))
   },
   // 父分类索引
   bindParentPickerChange: function(e) {
@@ -167,7 +166,7 @@ Page({
     } = this.data.categoryList[index]
 
     // 先用level获取到categories
-    await this.getCategoryList(level)
+    await this.getCategoryList(parseInt(level) - 1)
 
     this.setData({
       showDialog: true,
