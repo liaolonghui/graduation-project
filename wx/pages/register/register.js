@@ -1,5 +1,5 @@
 // pages/register/register.js
-import {request} from '../../request/index'
+import {request, ADD_AVATAR_ADDRESS} from '../../request/index'
 
 Page({
 
@@ -40,7 +40,7 @@ Page({
       success (res) {
         // tempFilePath可以作为img标签的src属性显示图片
         wx.uploadFile({
-          url: 'http://127.0.0.1:666/api/uploadAvatar',
+          url: ADD_AVATAR_ADDRESS,
           filePath: res.tempFilePaths[0],
           name: 'avatar',
           header: {

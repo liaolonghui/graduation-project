@@ -18,7 +18,7 @@ module.exports = (app, SERVER_URL) => {
     const {id} = jwt.verify(token, app.get('secret'))
     const user = await User.findById(id)
 
-    req.UserId = user._id
+    req.userId = user._id
     req.power = user.power
 
     await next()
@@ -35,9 +35,18 @@ module.exports = (app, SERVER_URL) => {
 
 
   // Goods
+  // 商品图片的上传
+  const goodsImgUp = multer({ dest: 'goodsImgs/' })
+  router.post('/addGoodsImg', goodsImgUp.single('goodsImg'), (req, res) => {
+    res.send({
+      code: 'ok',
+      name: req.file.originalname,
+      path: SERVER_URL+'/goodsImgs/'+req.file.filename
+    })
+  })
   // 添加新商品 （如果是管理员提交的商品就直接通过）
   router.post('/addGoods', verifyAdmin, async (req, res) => {
-    const sellerId = req.UserId // 卖家id （也就是发请求的用户id）
+    const sellerId = req.userId // 卖家id （也就是发请求的用户id）
     const power = req.power // 权限
     const goods = req.body
 
@@ -52,6 +61,7 @@ module.exports = (app, SERVER_URL) => {
       result
     })
   })
+  // 获取商品列表
   router.get('/getGoods', verifyAdmin, async (req, res) => {
     const userId = req.userId
 

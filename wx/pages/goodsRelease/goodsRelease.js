@@ -14,13 +14,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getGoodsList()
+    // this.getGoodsList()
   },
 
   // 获取goodsList
   async getGoodsList () {
-    const res = await request('/getGoods', {}, 'get', {
-      authorization: wx.getStorageSync('token')
+    const token = wx.getStorageSync('token')
+    const res = await request('getGoods', {}, 'get', {
+      authorization: token
     })
 
     if (res.data.code == 'ok') {
@@ -48,7 +49,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getGoodsList()
   },
 
   /**

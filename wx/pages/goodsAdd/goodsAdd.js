@@ -1,4 +1,4 @@
-import {request} from '../../request/index'
+import {request, ADD_GOODS_IMG_ADDRESS} from '../../request/index'
 
 Page({
 
@@ -11,6 +11,8 @@ Page({
     categoryIndex: -1,
     categories: [], // category 详细信息
     categoryNames: [], // category 分类名集合
+    imgs: [], // 商品图片地址数组
+    html: '', // 富文本
   },
 
   // 地区选择器的函数
@@ -47,17 +49,104 @@ Page({
     }
   },
 
+  // 上传商品图片
+  addGoodsImg () {
+    const that = this
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success (res) {
+        // tempFilePath可以作为img标签的src属性显示图片
+        wx.uploadFile({
+          url: ADD_GOODS_IMG_ADDRESS,
+          filePath: res.tempFilePaths[0],
+          name: 'goodsImg',
+          header: {
+            'Content-Type': 'multipart/form-data'
+          },
+          formData: {},
+          success: (resp) => {
+            const img = JSON.parse(resp.data)
+            that.setData({
+              imgs: [
+                ...that.data.imgs,
+                {
+                  img_id: img.name,
+                  img_url: img.path
+                }
+              ]
+            })
+          }
+        })
+      }
+    })
+  },
+
+  // 富文本输入时触发
+  editorInput (e) {
+    this.setData({
+      html: e.detail.html
+    })
+  },
+
   // 表单提交
-  formSubmit (e) {
+  async formSubmit (e) {
     // 要发送token 获取用户信息
+    const token = wx.getStorageSync('token')
     // area是索引  要转换一下  areas[area]
     // category是索引 要转换一下 categories[category]._id
-
+    let goods = e.detail.value
+    if (!goods.name.trim()) return wx.showToast({
+      title: '未填写商品名称',
+      icon: 'none'
+    })
+    if (!goods.nowPrice) return wx.showToast({
+      title: '未填写现价',
+      icon: 'none'
+    })
+    if (!goods.amount) return wx.showToast({
+      title: '未填写货存',
+      icon: 'none'
+    })
+    if (!goods.tele) return wx.showToast({
+      title: '未填写售后电话',
+      icon: 'none'
+    })
+    if (!goods.name) return wx.showToast({
+      title: '未填写商品名称',
+      icon: 'none'
+    })
+    if (goods.area < 0 || goods.category < 0) {
+      // 说明没有选择地区或分类
+      return wx.showToast({
+        title: '请选择地区或分类',
+        icon: 'none'
+      })
+    }
+    goods.area = this.data.areas[goods.area]
+    goods.category = this.data.categories[goods.category]._id
     // 图片 imgs
-
+    goods.imgs = this.data.imgs
+    if (!goods.imgs.length) {
+      return wx.showToast({
+        title: '至少添加一张商品图片',
+        icon: 'none'
+      })
+    }
     // 富文本的处理 html
+    goods.html = this.data.html
 
-    console.log(e.detail.value)
+    const result = await request('addGoods', goods, 'post', {
+      authorization: token
+    })
+    if (result.data.code == 'ok') {
+      wx.navigateBack()
+      wx.showToast({
+        title: '商品添加成功',
+        icon: 'none'
+      })
+    }
   },
 
   /**

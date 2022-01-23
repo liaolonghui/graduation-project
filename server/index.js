@@ -21,6 +21,7 @@ require('./plugins/db')(app)
 // 静态资源
 app.use('/imgs', express.static(path.join(__dirname + '/imgs')))
 app.use('/avatars', express.static(path.join(__dirname + '/avatars'))) // 头像
+app.use('/goodsImgs', express.static(path.join(__dirname + '/goodsImgs'))) // 商品图片
 
 // routes
 require('./routes/index.js')(app, SERVER_URL)

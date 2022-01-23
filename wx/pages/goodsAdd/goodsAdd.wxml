@@ -1,28 +1,33 @@
 <view class="goods_add">
   <form catchsubmit="formSubmit">
     <!-- name -->
-    <view class="goods_info_item">
-      <input name="name" placeholder="商品名称" />
+    <view class="goods_info_input">
+      <view class="goods_info_title">商品名称</view>
+      <input name="name" placeholder="请填写商品名称" />
     </view>
     <!-- price 原价 -->
-    <view class="goods_info_item">
-      <input name="price" placeholder="原价" />
+    <view class="goods_info_input">
+      <view class="goods_info_title">商品原价(可不填)</view>
+      <input name="price" type="digit" placeholder="请填写原价" />
     </view>
     <!-- nowPrice 现价 -->
-    <view class="goods_info_item">
-      <input name="nowPrice" placeholder="现价" />
+    <view class="goods_info_input">
+      <view class="goods_info_title">商品现价</view>
+      <input name="nowPrice" type="digit" placeholder="请填写现价" />
     </view>
     <!-- amount 货存 -->
-    <view class="goods_info_item">
-      <input name="amount" placeholder="货存" />
+    <view class="goods_info_input">
+      <view class="goods_info_title">商品货存</view>
+      <input name="amount" type="number" placeholder="请填写货存" />
     </view>
     <!-- tele 售后电话 -->
-    <view class="goods_info_item">
-      <input name="tele" placeholder="售后电话" />
+    <view class="goods_info_input">
+      <view class="goods_info_title">售后电话</view>
+      <input name="tele" type="number" placeholder="请填写售后电话" />
     </view>
     <!-- area -->
-    <view class="goods_info_item">
-      <view>所属地区</view>
+    <view class="goods_info_picker">
+      <view class="goods_info_title">商品所属地区</view>
       <picker bindchange="bindAreaPickerChange" name="area" value="{{areaIndex}}" range="{{areas}}">
         <view class="picker">
           当前选择：{{areas[areaIndex]}}
@@ -30,8 +35,8 @@
       </picker>
     </view>
     <!-- category -->
-    <view class="goods_info_item">
-      <view>所属分类</view>
+    <view class="goods_info_picker">
+      <view class="goods_info_title">商品所属分类</view>
       <picker bindchange="bindCategoryPickerChange" name="category" value="{{categoryIndex}}" range="{{categoryNames}}">
         <view class="picker">
           当前选择：{{categoryNames[categoryIndex]}}
@@ -39,17 +44,24 @@
       </picker>
     </view>
     <!-- imgs -->
-    <view class="goods_info_item">
-      imgs .... 
+    <view class="goods_info_imgs">
+      <view class="goods_info_title">商品图片</view>
+      <view class="goods_imgs_wrap">
+        <view class="goods_imgs_item" wx:for="{{imgs}}" wx:key="img_id">
+          <image src="{{item.img_url}}"></image>
+        </view>
+        <view wx:if="{{imgs.length < 8}}" class="goods_imgs_add" bindtap="addGoodsImg">+</view>
+      </view>
     </view>
     <!-- html 即富文本 -->
-    <view class="goods_info_item">
-      <editor name="html"></editor>
+    <view class="goods_info_html">
+      <view class="goods_info_title">商品详情</view>
+      <editor name="html" bindinput="editorInput"></editor>
     </view>
 
     <!-- btn -->
     <view class="btn-area">
-      <button style="margin: 30rpx 0" type="primary" formType="submit">Submit</button>
+      <button type="primary" formType="submit">提交</button>
     </view>
   </form>
 </view>

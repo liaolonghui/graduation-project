@@ -17,7 +17,8 @@ const schema = new mongoose.Schema({
   },
   imgs: [ // 商品的图片
     {
-      type: String
+      img_id: String,
+      img_url: String
     }
   ],
   html: { // 详细介绍

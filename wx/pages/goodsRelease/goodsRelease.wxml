@@ -3,10 +3,14 @@
     <button type="primary" bindtap="toAddGoods">添加新商品</button>
   </view>
   <view class="goods_list_wrap">
-    <view class="goods_list">
+    <!-- 有 -->
+    <view class="goods_list" wx:if="{{goodsList.length}}">
       <view class="goods_item" wx:for="{{goodsList}}" wx:key="_id">
         {{item.name}}
+        {{ item.state ? '' : '(待审核)' }}
       </view>
     </view>
+    <!-- 无 -->
+    <view wx:else>没有已发布商品</view>
   </view>
 </view>
