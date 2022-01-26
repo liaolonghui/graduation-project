@@ -95,6 +95,15 @@ module.exports = (app, SERVER_URL) => {
       categories: result
     })
   })
+  // 分类图标的上传
+  const categoryImgUp = multer({ dest: 'categoryImgs/' })
+  router.post('/addcategoryImg', categoryImgUp.single('categoryImg'), (req, res) => {
+    res.send({
+      code: 'ok',
+      name: req.file.originalname,
+      path: SERVER_URL+'/categoryImgs/'+req.file.filename
+    })
+  })
   router.post('/addCategory', async (req, res) => {
     const category = req.body
     

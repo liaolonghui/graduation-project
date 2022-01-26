@@ -27,6 +27,11 @@
     <!-- 内容 -->
     <view class="dialog_content">
       <form catchsubmit="addOrUpdateCategory">
+        <view class="category_img">
+          <!-- 分类图标 -->
+          <image wx:if="{{img}}" bindtap="addCategoryImg" src="{{img}}"></image>
+          <view wx:else bindtap="addCategoryImg" class="category_img_add">+</view>
+        </view>
         <view class="category_level">
           <!-- 级别 -->
           <picker bindchange="bindLevelPickerChange" value="{{level}}" range="{{array}}">

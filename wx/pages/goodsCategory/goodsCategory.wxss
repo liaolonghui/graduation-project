@@ -97,6 +97,27 @@
 }
 
 /* dialog里的输入框按钮等样式 */
+.dialog .category_img {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20rpx;
+}
+.dialog .category_img image {
+  width: 160rpx;
+  height: 160rpx;
+  border: 2rpx solid #333;
+  border-radius: 50%;
+}
+.dialog .category_img .category_img_add {
+  width: 160rpx;
+  height: 160rpx;
+  line-height: 150rpx;
+  font-size: 140rpx;
+  text-align: center;
+  color: #666;
+  border: 2rpx solid #333;
+  border-radius: 50%;
+}
 .dialog input {
   height: 80rpx;
 }

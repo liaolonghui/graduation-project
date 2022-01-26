@@ -1,5 +1,5 @@
 // pages/goodsCategory/goodsCategory.js
-import {request} from '../../request/index'
+import {request, ADD_CATEGORY_IMG_ADDRESS} from '../../request/index'
 
 Page({
 
@@ -9,6 +9,8 @@ Page({
   data: {
     showDialog: false, // 控制dialog的显隐
     categoryList: [], // 所有分类
+
+    img: '', // 分类图标
 
     array: ['第一级别', '第二级别', '第三级别'],
     level: 0, // 级别0-2  发送到服务端时需要+1  变成1-3
@@ -36,6 +38,33 @@ Page({
     if (this.data.parentIndex == e.detail.value) return
     this.setData({
       parentIndex: e.detail.value
+    })
+  },
+
+  // 分类图标的上传
+  addCategoryImg () {
+    const that = this
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success (res) {
+        // tempFilePath可以作为img标签的src属性显示图片
+        wx.uploadFile({
+          url: ADD_CATEGORY_IMG_ADDRESS,
+          filePath: res.tempFilePaths[0],
+          name: 'categoryImg',
+          header: {
+            'Content-Type': 'multipart/form-data'
+          },
+          formData: {},
+          success: (resp) => {
+            that.setData({
+              img: JSON.parse(resp.data).path
+            })
+          }
+        })
+      }
     })
   },
 
@@ -97,6 +126,7 @@ Page({
         duration: 1500
       })
     }
+    const img = this.data.img
     const level = parseInt(this.data.level) + 1
     const parentCategory = this.data.categories[this.data.parentIndex]
     const parent = parentCategory ? parentCategory._id : null
@@ -108,6 +138,7 @@ Page({
       result = await request('updateCategory', {
         id,
         newCategory: {
+          img,
           name,
           level,
           parent
@@ -116,6 +147,7 @@ Page({
       title = '修改分类成功'
     } else {
       result = await request('addCategory', {
+        img,
         name,
         level,
         parent
@@ -131,6 +163,7 @@ Page({
     this.setData({
       showDialog: false,
       categoryName: '',
+      img: '',
       level: 0,
       categories: [],
       categoryNames: [],
@@ -149,6 +182,7 @@ Page({
       categoryNames: [],
       parentIndex: 0,
       categoryName: '',
+      img: '',
       updateId: ''
     })
   },
@@ -162,6 +196,7 @@ Page({
       level,
       parent,
       name,
+      img,
       _id
     } = this.data.categoryList[index]
 
@@ -172,6 +207,7 @@ Page({
       showDialog: true,
       level: level-1,
       categoryName: name,
+      img,
       parentIndex: this.data.categories.findIndex(cate => cate._id == parent),
       updateId: _id
     })
