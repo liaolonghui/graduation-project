@@ -159,6 +159,12 @@ Page({
         title,
         duration: 1500
       })
+    } else {
+      wx.showToast({
+        title: result.data.msg,
+        icon: 'none',
+        duration: 1500
+      })
     }
     this.setData({
       showDialog: false,
@@ -239,7 +245,7 @@ Page({
             that.getCategoryList()
           } else {
             wx.showToast({
-              title: `“${name}”分类删除失败`,
+              title: result.data.msg || `“${name}”分类删除失败`,
               icon: 'none',
               duration: 1500
             })

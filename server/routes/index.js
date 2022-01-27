@@ -1,6 +1,6 @@
 const Goods = require('../models/Goods')
 
-module.exports = (app, SERVER_URL) => {
+module.exports = (app, SERVER_URL, baseCategories) => {
   const express = require('express')
   const axios = require('axios')
   const jwt = require('jsonwebtoken')
@@ -106,6 +106,17 @@ module.exports = (app, SERVER_URL) => {
   })
   router.post('/addCategory', async (req, res) => {
     const category = req.body
+
+    // 如果有重名就不创建
+    const cate = await Category.findOne({
+      name: category.name
+    })
+    if (cate) {
+      return res.send({
+        code: 'bad',
+        msg: '已存在同名分类'
+      })
+    }
     
     const result = await Category.create(category)
 
@@ -119,12 +130,35 @@ module.exports = (app, SERVER_URL) => {
   })
   router.put('/updateCategory', async (req, res) => {
     const { id, newCategory } = req.body
+
+    // baseCategories就不修改
+    const category = await Category.findById(id)
+    for (let i = 0; i < baseCategories.length; i++) {
+      if (baseCategories[i] === category.name) {
+        return res.send({
+          code: 'bad',
+          msg: '该分类不允许修改'
+        })
+      }
+    }
+
     await Category.findByIdAndUpdate(id, newCategory)
     res.send({
       code: 'ok'
     })
   })
   router.delete('/deleteCategory/:id', async (req, res) => {
+
+    const category = await Category.findById(req.params.id)
+    for (let i = 0; i < baseCategories.length; i++) {
+      if (baseCategories[i] === category.name) {
+        return res.send({
+          code: 'bad',
+          msg: '该分类不允许删除'
+        })
+      }
+    }
+
     await Category.findByIdAndDelete(req.params.id)
     res.send({
       code: 'ok'

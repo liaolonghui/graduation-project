@@ -3,10 +3,13 @@ const cors = require('cors')
 const path = require('path')
 
 const User = require('./models/User')
+const Category = require('./models/Category')
 
 // 端口
 const SERVER_PORT = 666
 const SERVER_URL = `http://127.0.0.1:${SERVER_PORT}`
+// 基本一级分类
+const baseCategories = ['米面粮油', '肉禽蛋奶', '时令果蔬', '休闲零食', '茗茶饮品']
 
 const app = express()
 // secret
@@ -25,7 +28,7 @@ app.use('/categoryImgs', express.static(path.join(__dirname + '/categoryImgs')))
 app.use('/goodsImgs', express.static(path.join(__dirname + '/goodsImgs'))) // 商品图片
 
 // routes
-require('./routes/index.js')(app, SERVER_URL)
+require('./routes/index.js')(app, SERVER_URL, baseCategories)
 
 
 
@@ -42,6 +45,22 @@ User.findOne({
     })
   }
 })
+// 基本的一级分类
+baseCategories.forEach((categoryName, index) => {
+  index++
+  Category.findOne({
+    level: 1,
+    name: categoryName
+  }).then(category => {
+    if (!category) {
+      Category.create({
+        name: categoryName,
+        level: 1,
+        img: SERVER_URL + '/imgs/navBar/' + index + '.png'
+      })
+    }
+  })
+});
 
 
 app.listen(SERVER_PORT, () => {
