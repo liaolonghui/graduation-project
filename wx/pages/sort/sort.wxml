@@ -5,8 +5,45 @@
   <!-- category / sort -->
   <view class="sort_category">
     <!-- 左侧选择 -->
-    
+    <scroll-view class="category_level1" scroll-y>
+      <view
+        bindtap="changeLevel1Active"
+        wx:for="{{categoryTree}}"
+        wx:key="_id"
+        class="{{'category_level1_item ' + (level1Active === index ? 'active' : '')}}"
+        data-index="{{index}}"
+      >
+        {{item.name}}
+      </view>
+    </scroll-view>
     <!-- 右侧展示 -->
+    <scroll-view scroll-y class="category_level23">
+      <view
+        wx:for="{{categoryTree[level1Active].children}}"
+        wx:for-item="level2Category"
+        wx:key="_id"
+        class="category_level23_item"
+      >
+        <view class="category_level2_title">{{level2Category.name}}</view>
+        <!-- 三级分类 -->
+        <view class="category_level3">
+          <view
+            wx:for="{{level2Category.children}}"
+            wx:key="_id"
+            class="category_level3_item"
+            bindtap="tapCategorgLevel3"
+            data-level3Name="{{item.name}}"
+          >
+            <view class="category_level3_img">
+              <image mode="widthFix" src="{{item.img}}"></image>
+            </view>
+            <view class="category_level3_name">
+              {{item.name}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
   </view>
 
 </view>

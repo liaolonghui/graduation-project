@@ -6,7 +6,15 @@ Page({
    * 页面的初始数据
    */
   data: {
+    level1Active: 0, // 当前显示的是哪一个一级分类
     categoryTree: []
+  },
+
+  // 改变level1Active
+  changeLevel1Active (e) {
+    this.setData({
+      level1Active: e.target.dataset.index
+    })
   },
 
   /**
@@ -20,6 +28,13 @@ Page({
     const result = await request('getCategoryTree')
     this.setData({
       categoryTree: result.data.categoryTree
+    })
+  },
+
+  // 跳转至搜索页 并传递所点击的三级分类的分类名
+  tapCategorgLevel3 (e) {
+    wx.navigateTo({
+      url: '../search/search?type=' + e.currentTarget.dataset.level3name,
     })
   },
 
