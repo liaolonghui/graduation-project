@@ -1,2 +1,12 @@
-<!--pages/sort/sort.wxml-->
-<text>pages/sort/sort.wxml</text>
+<view class="sort">
+  <!-- searchBar -->
+  <SearchBar />
+
+  <!-- category / sort -->
+  <view class="sort_category">
+    <!-- 左侧选择 -->
+    
+    <!-- 右侧展示 -->
+  </view>
+
+</view>

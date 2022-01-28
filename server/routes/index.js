@@ -76,6 +76,49 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   })
 
 
+  // 分类页的树形分类列表
+  router.get('/getCategoryTree', async (req, res) => {
+
+    // 1
+    let categoryTree = await Category.find({
+      level: 1
+    })
+    categoryTree = JSON.parse(JSON.stringify(categoryTree)) // 因为无法对查询结果直接修改，所以拷贝一份（该方式不适用于含有正则，Date等数据）
+    // 2
+    let category2level = await Category.find({
+      level: 2
+    })
+    category2level = JSON.parse(JSON.stringify(category2level)) // 因为无法对查询结果直接修改，所以拷贝一份（该方式不适用于含有正则，Date等数据）
+    // 3
+    let category3level = await Category.find({
+      level: 3
+    })
+    // 循环
+    for (let i = 0; i < category3level.length; i++) {
+      for (let j = 0; j < category2level.length; j++) {
+        // 将对应的三级分类push进二级分类的children里面
+        if (category3level[i].parent.toString() === category2level[j]._id.toString()) {
+          category2level[j]['children'] = category2level[j]['children'] || []
+          category2level[j]['children'].push(category3level[i])
+          break
+        }
+      }
+    }
+    for (let i = 0; i < category2level.length; i++) {
+      for (let j = 0; j < categoryTree.length; j++) {
+        // 将对应的二级分类push进一级分类的children里面
+        if (category2level[i].parent.toString() === categoryTree[j]._id.toString()) {
+          categoryTree[j]['children'] = categoryTree[j]['children'] || []
+          categoryTree[j]['children'].push(category2level[i])
+          break
+        }
+      }
+    }
+    
+    res.send({
+      categoryTree
+    })
+  })
   // Category  
   // 获取分类列表（可接受 query: { level } 用于获取对应级别的分类）  1<=level<=3
   router.get('/getCategory', async (req, res) => {
