@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    cartData: []
   },
 
   /**
@@ -13,6 +13,13 @@ Page({
    */
   onLoad: function (options) {
 
+  },
+
+  // 去首页
+  toIndex () {
+    wx.switchTab({
+      url: '../index/index',
+    })
   },
 
   /**

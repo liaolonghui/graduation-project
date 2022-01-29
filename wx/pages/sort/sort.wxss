@@ -59,11 +59,12 @@ page {
 }
 .sort .category_level3_img {
   width: 100%;
-  padding: 0 10rpx;
+  padding: 0 15rpx;
   box-sizing: border-box;
 }
 .sort .category_level3_img image {
   width: 100%;
+  max-height: 140rpx;
   border: 2rpx solid #ccc;
   border-radius: 50%;
 }
