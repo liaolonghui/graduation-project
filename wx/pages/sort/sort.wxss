@@ -4,6 +4,12 @@ page {
 .sort {
   height: 100%;
 }
+.sort .search_bar {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
 .sort .sort_category {
   position: absolute;
   top: 0;

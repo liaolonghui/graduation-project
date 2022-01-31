@@ -1,7 +1,8 @@
 <view class="sort">
   <!-- searchBar -->
-  <SearchBar />
-
+  <view class="search_bar">
+    <SearchBar />
+  </view>
   <!-- category / sort -->
   <view class="sort_category">
     <!-- 左侧选择 -->
