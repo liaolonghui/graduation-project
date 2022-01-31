@@ -1,18 +1,40 @@
-// pages/goodsAudit/goodsAudit.js
+import { request } from '../../request/index'
+ 
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    goodsList: [],
+    searchKey: '',
+    pageNumber: 1,
+    pageSize: 10
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.getGoodsList()
+  },
 
+  async getGoodsList () {
+    const { searchKey, pageNumber, pageSize } = this.data
+    const result = await request('getGoodsList', {
+      searchKey,
+      pageNumber,
+      pageSize
+    })
+    if (pageNumber === 1) {
+      this.setData({
+        goodsList: result.data
+      })
+    } else {
+      this.setData({
+        goodsList: this.data.goodsList.push(result.data)
+      })
+    }
   },
 
   /**

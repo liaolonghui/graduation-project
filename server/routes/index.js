@@ -44,7 +44,7 @@ module.exports = (app, SERVER_URL, baseCategories) => {
       path: SERVER_URL+'/goodsImgs/'+req.file.filename
     })
   })
-  // 添加新商品 （如果是管理员提交的商品就直接通过）
+  // 添加新商品 （如果是管理员提交的商品就直接通过审核）
   router.post('/addGoods', verifyAdmin, async (req, res) => {
     const sellerId = req.userId // 卖家id （也就是发请求的用户id）
     const power = req.power // 权限
@@ -61,7 +61,7 @@ module.exports = (app, SERVER_URL, baseCategories) => {
       result
     })
   })
-  // 获取商品列表
+  // 获取用户自己发布的商品列表
   router.get('/getGoods', verifyAdmin, async (req, res) => {
     const userId = req.userId
 
@@ -73,6 +73,29 @@ module.exports = (app, SERVER_URL, baseCategories) => {
       code: 'ok',
       goodsList
     })
+  })
+  // 获取没通过审核的商品列表 query有searchKey pageNumber pageSize
+  router.get('/getGoodsList', async (req, res) => {
+
+    let { searchKey='', pageNumber=1, pageSize=10 } = req.query
+    pageNumber = parseInt(pageNumber)
+    pageSize = parseInt(pageSize)
+    
+    const skipSum = (pageNumber - 1) * pageSize
+
+    const goodsList = await Goods.find({
+      name: {
+        $regex: searchKey,
+        $options: 'ig'
+      }
+    }).populate('seller category').skip(skipSum).limit(pageSize)
+    
+    res.send(goodsList)
+
+  })
+  // 审核商品 （管理员权限）
+  router.post('/auditGoods', verifyAdmin, async (req, res) => {
+    
   })
 
 

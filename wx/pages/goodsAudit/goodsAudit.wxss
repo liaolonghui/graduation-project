@@ -1,1 +1,4 @@
-/* pages/goodsAudit/goodsAudit.wxss */
+.goods_audit .goods_list_item {
+  padding: 40rpx 20rpx;
+  border: 2rpx solid #ccc;
+}
