@@ -31,6 +31,55 @@ Page({
     }
   },
 
+  // 前往商品详情
+  toGoodsDetail (e) {
+    const goodsId = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '../goodsDetail/goodsDetail?goodsId=' + goodsId,
+    })
+  },
+
+  // 删除商品
+  async deleteGoods (e) {
+
+    const token = wx.getStorageSync('token')
+    const goodsId = e.target.dataset.id
+    const name = e.target.dataset.name
+
+    const that = this
+    wx.showModal({
+      title: '删除商品',
+      content: `是否删除“${name}”商品`,
+      confirmColor: '#eb4450',
+      async success (res) {
+        if (res.confirm) {
+          // 确定
+          const result = await request('deleteGoods', {
+            goodsId
+          }, 'delete', {
+            authorization: token
+          })
+          if (result.data.code == 'ok') {
+            wx.showToast({
+              title: `“${name}”商品删除成功`,
+              icon: 'none',
+              duration: 1500
+            })
+            that.getGoodsList()
+          } else {
+            wx.showToast({
+              title: result.data.msg || `“${name}”商品删除失败`,
+              icon: 'none',
+              duration: 1500
+            })
+          }
+        } else if (res.cancel) {
+          // 用户点击取消
+        }
+      }
+    })
+  },
+
   // 去添加商品的页面
   toAddGoods () {
     wx.navigateTo({

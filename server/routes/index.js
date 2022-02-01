@@ -74,7 +74,26 @@ module.exports = (app, SERVER_URL, baseCategories) => {
       goodsList
     })
   })
-  // 获取没通过审核的商品列表 query有searchKey pageNumber pageSize
+  // 用户自己删除发布的商品
+  router.delete('/deleteGoods', verifyAdmin, async (req, res) => {
+    const userId = req.userId
+    const goodsId = req.body.goodsId
+
+    const goods = await Goods.findOne({
+      _id: goodsId,
+      seller: userId
+    })
+    // 如果不存在
+    if (!goods) return res.send({
+      code: 'bad',
+      msg: '您已发布的商品中并无此商品'
+    })
+    await Goods.findByIdAndDelete(goodsId)
+    res.send({
+      code: 'ok'
+    })
+  })
+  // 获取商品列表用于管理员查看审核 query有searchKey pageNumber pageSize
   router.get('/getGoodsList', async (req, res) => {
 
     let { searchKey='', pageNumber=1, pageSize=10 } = req.query
@@ -95,7 +114,26 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   })
   // 审核商品 （管理员权限）
   router.post('/auditGoods', verifyAdmin, async (req, res) => {
-    
+    const power = req.power // 权限
+    const { goodsId, state } = req.body
+    console.log(goodsId, state)
+
+    if (power === 'super') {
+      const result = await Goods.findByIdAndUpdate(goodsId, {
+        $set: {
+          state
+        }
+      })
+      res.send({
+        code: 'ok',
+        result
+      })
+    } else {
+      res.send({
+        code: 'bad',
+        msg: '权限不足'
+      })
+    }
   })
 
 

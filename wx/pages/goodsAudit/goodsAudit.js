@@ -12,10 +12,50 @@ Page({
     pageSize: 10
   },
 
+  // 改变searchKey
+  changeSearchKey (e) {
+    this.setData({
+      searchKey: e.detail.value
+    })
+  },
+
+  // 前往商品详情
+  toGoodsDetail (e) {
+    const goodsId = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '../goodsDetail/goodsDetail?goodsId=' + goodsId,
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.getGoodsList()
+  },
+
+  // 下拉刷新
+  async onPullDownRefresh () {
+    this.setData({
+      pageNumber: 1
+    })
+    await this.getGoodsList()
+    wx.stopPullDownRefresh()
+  },
+  // 上拉加载
+  onReachBottom () {
+    console.log('上拉加载')
+    this.setData({
+      pageNumber: this.data.pageNumber + 1
+    })
+    this.getGoodsList()
+  },
+
+  // 搜索
+  search () {
+    this.setData({
+      pageNumber: 1
+    })
     this.getGoodsList()
   },
 
@@ -33,6 +73,34 @@ Page({
     } else {
       this.setData({
         goodsList: this.data.goodsList.push(result.data)
+      })
+    }
+  },
+
+  // 改变商品审核状态state
+  async changeGoodsState (e) {
+    const token = wx.getStorageSync('token')
+    const { id: goodsId, state } = e.target.dataset
+    console.log(goodsId, state)
+    const result = await request('auditGoods', {
+      goodsId,
+      state: !state
+    }, 'post', {
+      authorization: token
+    })
+    if (result.data.code === 'ok') {
+      wx.showToast({
+        title: '修改成功',
+        icon: 'none',
+        duration: 1000
+      })
+      this.setData({
+        goodsList: this.data.goodsList.map((goods) => {
+          if (goods._id === goodsId) {
+            goods.state = !goods.state
+          }
+          return goods
+        })
       })
     }
   },
@@ -62,20 +130,6 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
 
   },
 

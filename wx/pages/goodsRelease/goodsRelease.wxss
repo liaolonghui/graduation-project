@@ -12,8 +12,35 @@
 }
 
 .goods_release .goods_list_wrap .goods_item {
-  padding: 28rpx;
+  padding: 20rpx 28rpx;
   margin: 10rpx 0;
   border: 1px solid #ccc;
   border-radius: 25rpx;
+}
+.goods_release .goods_item {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.goods_release .goods_info view {
+  width: 300rpx;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.goods_release .goods_img,
+.goods_release .delete_goods_btn {
+  flex: 1;
+}
+.goods_release .goods_img image {
+  width: 120rpx;
+  height: 120rpx;
+  border: 2rpx solid #ccc;
+  border-radius: 50%;
+}
+.goods_release .delete_goods_btn button {
+  width: 200rpx;
+  padding: 20rpx 0;
+  color: #fff;
+  background-color: #eb4450;
 }

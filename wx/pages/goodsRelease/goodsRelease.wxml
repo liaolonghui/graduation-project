@@ -5,9 +5,23 @@
   <view class="goods_list_wrap">
     <!-- 有 -->
     <view class="goods_list" wx:if="{{goodsList.length}}">
-      <view class="goods_item" wx:for="{{goodsList}}" wx:key="_id">
-        {{item.name}}
-        {{ item.state ? '' : '(待审核)' }}
+      <view
+        class="goods_item"
+        wx:for="{{goodsList}}"
+        wx:key="_id"
+        data-id="{{item._id}}"
+        bindtap="toGoodsDetail"
+      >
+        <view class="goods_info">
+          <view>商品名：{{item.name}} {{ item.state ? '' : '(待审核)' }}</view>
+          <view>现价：￥{{item.nowPrice}}</view>
+        </view>
+        <view class="goods_img">
+            <image src="{{item.imgs[0].img_url}}"></image>
+        </view>
+        <view class="delete_goods_btn">
+          <button catchtap="deleteGoods" data-name="{{item.name}}" data-id="{{item._id}}">删除</button>
+        </view>
       </view>
     </view>
     <!-- 无 -->

@@ -1,4 +1,37 @@
-.goods_audit .goods_list_item {
-  padding: 40rpx 20rpx;
+.goods_audit .goods_input {
   border: 2rpx solid #ccc;
+  border-radius: 20rpx;
+  padding: 15rpx 0 15rpx 25rpx;
+  margin: 20rpx;
+}
+.goods_audit .goods_list_item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  border: 2rpx solid #ccc;
+}
+.goods_audit .goods_img {
+  margin-right: 20rpx;
+}
+.goods_audit .goods_img image {
+  width: 120rpx;
+  height: 120rpx;
+  border: 2rpx solid #ccc;
+  border-radius: 50%;
+}
+.goods_audit .goods_info view {
+  width: 360rpx;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.goods_audit .change_state_btn button {
+  width: 200rpx;
+  color: #fff;
+}
+.goods_audit button.red_btn {
+  background-color: #eb4450;
+}
+.goods_audit button.green_btn {
+  background-color: green;
 }

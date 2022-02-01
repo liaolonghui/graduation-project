@@ -1,20 +1,44 @@
 <view class="goods_audit">
   <!-- 搜索框 -->
   <view class="goods_input">
-    <input type="text" />
+    <input
+      bindblur="search"
+      bindconfirm="search"
+      bindinput="changeSearchKey"
+      type="text"
+      placeholder="请输入您要搜索的商品名称"
+    />
   </view>
   <!-- 商品列表 -->
-  <view class="goods_list">
-    <view class="goods_list_item" wx:for="{{goodsList}}" wx:key="_id">
-      <!-- <view class="goods_img">
+  <view wx:if="{{goodsList.length}}" class="goods_list">
+    <view
+      class="goods_list_item"
+      wx:for="{{goodsList}}"
+      wx:key="_id"
+      data-id="{{item._id}}"
+      bindtap="toGoodsDetail"
+    >
+      <view class="goods_img">
         <image src="{{item.imgs[0].img_url}}"></image>
-      </view> -->
-      <view class="goods_name">
-        商品名：{{item.name}} {{item.state ? '' : '(审核中)'}}
       </view>
-      <view class="goods_seller">
-        发布者：{{item.seller.nickName}}
+      <view class="goods_info">
+        <view>商品名：{{item.name}}</view>
+        <view>发布者：{{item.seller.nickName}}</view>
+        <view>审核情况：{{item.state ? '审核通过' : '审核中'}}</view>
+      </view>
+      <view class="change_state_btn">
+        <button
+          class="{{ item.state ? 'red_btn' : 'green_btn' }}"
+          data-id="{{ item._id }}"
+          data-state="{{ item.state }}"
+          catchtap="changeGoodsState"
+        >
+          {{ item.state ? '取消' : '通过' }}
+        </button>
       </view>
     </view>
+  </view>
+  <view wx:else style="padding: 20rpx; border-top: 2rpx solid #ccc;">
+    没有符合条件的商品......
   </view>
 </view>
