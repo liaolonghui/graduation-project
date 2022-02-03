@@ -1,2 +1,40 @@
-<!--pages/userManagement/userManagement.wxml-->
-<text>pages/userManagement/userManagement.wxml</text>
+<scroll-view class="sc" scroll-y="true" style="height:{{scrollHeight}}px;" class="user_manage">
+  <view class="search_input">
+    <input
+      bindblur="search"
+      bindconfirm="search"
+      bindinput="changeSearchKey"
+      type="text"
+      placeholder="搜索用户"
+    />
+  </view>
+  <view class="user_list">
+    <view class="user_list_item" wx:for="{{userList}}" wx:key="_id">
+      <view class="user_avatar">
+        <image src="{{item.avatar}}"></image>
+      </view>
+      <view class="user_info">
+        <view>用户昵称：{{item.nickName}}</view>
+        <view>用户账号：{{item.accountNumber}}</view>
+        <view>权限：{{item.power === 'super' ? '管理员' : '普通用户'}}</view>
+      </view>
+      <view class="operation">
+        <button
+          data-id="{{item._id}}"
+          bindtap="changePower"
+          type="primary"
+        >
+          {{ item.power === 'super' ? '改为普通用户' : '改为管理员' }}
+        </button>
+        <button
+          data-name="{{item.nickName}}"
+          data-id="{{item._id}}"
+          bindtap="deleteUser"
+          class="red_btn"
+        >
+          删除用户
+        </button>
+      </view>
+    </view>
+  </view>
+</scroll-view>

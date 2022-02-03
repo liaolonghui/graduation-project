@@ -1,1 +1,43 @@
-/* pages/userManagement/userManagement.wxss */
+.user_manage {
+  padding-bottom: 20rpx;
+}
+.user_manage .search_input input {
+  border: 2rpx solid #ccc;
+  border-radius: 20rpx;
+  padding: 15rpx 0 15rpx 25rpx;
+  margin: 20rpx;
+}
+.user_manage .search_input {
+  border-bottom: 2rpx solid #ccc;
+}
+.user_manage .user_list_item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  border-bottom: 2rpx solid #ccc;
+}
+.user_manage .user_avatar {
+  width: 150rpx;
+}
+.user_manage .user_info view {
+  width: 300rpx;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.user_manage .user_list_item image {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  border: 2rpx solid #CCC;
+}
+.user_manage button {
+  width: 250rpx !important;
+  padding: 18rpx 0 !important;
+  font-size: 28rpx;
+  color: #fff;
+}
+.user_manage button.red_btn {
+  margin-top: 10rpx;
+  background-color: #eb4450;
+}

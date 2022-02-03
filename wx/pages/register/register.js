@@ -61,7 +61,7 @@ Page({
   async register (e) {
     const { nickName, accountNumber, password } = e.detail.value
     const avatar = this.data.avatar
-    if (nickName.length >= 2 && accountNumber.length >= 4 && password.length >= 4 && avatar) {
+    if (nickName.length >= 1 && accountNumber.length >= 1 && password.length >= 1 && avatar) {
       const res = await request('register', {
         avatar,
         nickName,
@@ -85,6 +85,12 @@ Page({
           duration: 1000//持续的时间
         })
       }
+    } else {
+      wx.showToast({
+        title: '请在信息填写完整后注册',
+        icon: 'none',
+        duration: 2000
+      })
     }
   },
 

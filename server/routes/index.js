@@ -13,7 +13,7 @@ module.exports = (app, SERVER_URL, baseCategories) => {
 
 
   const verifyAdmin = async (req, res, next) => {
-    // 验证用户是否有管理员权限
+    // 获取用户权限，id
     const token = req.headers.authorization
     const {id} = jwt.verify(token, app.get('secret'))
     const user = await User.findById(id)
@@ -24,13 +24,71 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     await next()
 
   }
+  // 获取用户列表
+  router.get('/getUserList', async (req, res) => {
+    let { searchKey='', pageNumber=1, pageSize=10 } = req.query
+    pageNumber = parseInt(pageNumber)
+    pageSize = parseInt(pageSize)
+    console.log(searchKey, pageNumber, pageSize)
+    
+    const skipSum = (pageNumber - 1) * pageSize
+
+    const userList = await User.find({
+      nickName: {
+        $regex: searchKey,
+        $options: 'ig'
+      }
+    }).skip(skipSum).limit(pageSize)
+    
+    res.send(userList)
+  })
   // User  修改权限    只有管理员可以
-  router.post('/updatePower', (req, res) => {
+  router.post('/updatePower', verifyAdmin , async (req, res) => {
+    const power = req.power
+
+    if (power !== 'super') return res.send({
+      code: 'bad',
+      msg: '权限不足'
+    })
+
+    const id = req.body.id
+    const user = await User.findById(id)
+    if (user.accountNumber === 'admin') {
+      // admin账号不能被修改权限的
+      return res.send({
+        code: 'bad',
+        msg: '不允许修改该用户的权限'
+      })
+    }
+
+    const result = await User.findByIdAndUpdate(id, {
+      $set: {
+        power: user.power === 'super' ? 'none' : 'super'
+      }
+    })
+
+    res.send({
+      code: 'ok',
+      result
+    })
 
   })
-  // 删除用户     只有管理员可以
-  router.post('/deleteUser', (req, res) => {
-    
+  // 删号     只有管理员可以    (因为前期设计问题，所以没有弄成封号功能，而是直接删号)
+  router.delete('/deleteUser', verifyAdmin, async (req, res) => {
+    const power = req.power
+
+    if (power !== 'super') return res.send({
+      code: 'bad',
+      msg: '权限不足'
+    })
+
+    const id = req.body.id
+    const result = await User.findByIdAndDelete(id)
+    res.send({
+      code: 'ok',
+      result
+    })
+
   })
 
 
@@ -519,7 +577,6 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     const u = await User.findOne({
       accountNumber: req.body.accountNumber
     })
-    console.log(u)
     if (u) {
       return res.send({
         code: 'bad',
