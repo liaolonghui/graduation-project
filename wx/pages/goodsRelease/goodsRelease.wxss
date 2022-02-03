@@ -23,7 +23,7 @@
   align-items: center;
 }
 .goods_release .goods_info view {
-  width: 300rpx;
+  width: 310rpx;
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
