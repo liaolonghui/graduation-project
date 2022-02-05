@@ -7,6 +7,7 @@ Page({
    */
   data: {
     goodsList: [],
+    total: 0, // goods总数
     searchKey: '',
     pageNumber: 1,
     pageSize: 10
@@ -44,7 +45,8 @@ Page({
   },
   // 上拉加载
   onReachBottom () {
-    console.log('上拉加载')
+    const { goodsList, total } = this.data
+    if (goodsList.length >= total) return
     this.setData({
       pageNumber: this.data.pageNumber + 1
     })
@@ -68,11 +70,13 @@ Page({
     })
     if (pageNumber === 1) {
       this.setData({
-        goodsList: result.data
+        goodsList: result.data.goodsList,
+        total: result.data.total
       })
     } else {
       this.setData({
-        goodsList: this.data.goodsList.push(result.data)
+        goodsList: this.data.goodsList.concat(result.data.goodsList),
+        total: result.data.total
       })
     }
   },

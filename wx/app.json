@@ -19,7 +19,8 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#eb4450",
     "navigationBarTitleText": "扶贫购物",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "white",
+    "onReachBottomDistance": 200
   },
   "tabBar": {
     "color": "#999",

@@ -8,6 +8,7 @@ Page({
    */
   data: {
     userList: [],
+    total: 0,
     searchKey: '',
     pageNumber: 1,
     pageSize: 10
@@ -103,7 +104,8 @@ Page({
   },
   // 上拉加载
   onReachBottom () {
-    console.log('上拉加载')
+    const { userList, total } = this.data
+    if (userList.length >= total) return
     this.setData({
       pageNumber: this.data.pageNumber + 1
     })
@@ -125,9 +127,17 @@ Page({
       pageNumber,
       pageSize
     })
-    this.setData({
-      userList: result.data
-    })
+    if (pageNumber === 1) {
+      this.setData({
+        userList: result.data.userList,
+        total: result.data.total
+      })
+    } else {
+      this.setData({
+        userList: this.data.userList.concat(result.data.userList),
+        total: result.data.total
+      })
+    }
   },
 
   /**
@@ -155,20 +165,6 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
 
   },
 

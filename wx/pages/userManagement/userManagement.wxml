@@ -1,4 +1,4 @@
-<scroll-view class="sc" scroll-y="true" style="height:{{scrollHeight}}px;" class="user_manage">
+<view class="user_manage">
   <view class="search_input">
     <input
       bindblur="search"
@@ -36,5 +36,6 @@
         </button>
       </view>
     </view>
+    <view wx:if="{{ userList.length >= total }}" class="info">没有更多了...</view>
   </view>
-</scroll-view>
+</view>

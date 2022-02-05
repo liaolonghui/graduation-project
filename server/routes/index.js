@@ -11,6 +11,8 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   const User = require('../models/User')
   const Category = require('../models/Category')
 
+  // 用户搜索  只显示state为true的
+
 
   const verifyAdmin = async (req, res, next) => {
     // 获取用户权限，id
@@ -29,10 +31,15 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     let { searchKey='', pageNumber=1, pageSize=10 } = req.query
     pageNumber = parseInt(pageNumber)
     pageSize = parseInt(pageSize)
-    console.log(searchKey, pageNumber, pageSize)
     
     const skipSum = (pageNumber - 1) * pageSize
 
+    const total = await User.find({
+      nickName: {
+        $regex: searchKey,
+        $options: 'ig'
+      }
+    }).countDocuments()
     const userList = await User.find({
       nickName: {
         $regex: searchKey,
@@ -40,7 +47,10 @@ module.exports = (app, SERVER_URL, baseCategories) => {
       }
     }).skip(skipSum).limit(pageSize)
     
-    res.send(userList)
+    res.send({
+      total,
+      userList
+    })
   })
   // User  修改权限    只有管理员可以
   router.post('/updatePower', verifyAdmin , async (req, res) => {
@@ -160,6 +170,12 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     
     const skipSum = (pageNumber - 1) * pageSize
 
+    const total = await Goods.find({
+      name: {
+        $regex: searchKey,
+        $options: 'ig'
+      }
+    }).countDocuments()
     const goodsList = await Goods.find({
       name: {
         $regex: searchKey,
@@ -167,14 +183,16 @@ module.exports = (app, SERVER_URL, baseCategories) => {
       }
     }).populate('seller category').skip(skipSum).limit(pageSize)
     
-    res.send(goodsList)
+    res.send({
+      total,
+      goodsList
+    })
 
   })
   // 审核商品 （管理员权限）
   router.post('/auditGoods', verifyAdmin, async (req, res) => {
     const power = req.power // 权限
     const { goodsId, state } = req.body
-    console.log(goodsId, state)
 
     if (power === 'super') {
       const result = await Goods.findByIdAndUpdate(goodsId, {

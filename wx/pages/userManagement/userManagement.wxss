@@ -1,5 +1,7 @@
-.user_manage {
-  padding-bottom: 20rpx;
+.user_manage .info {
+  padding: 20rpx;
+  text-align: center;
+  border-bottom: 2rpx solid #ccc;
 }
 .user_manage .search_input input {
   border: 2rpx solid #ccc;

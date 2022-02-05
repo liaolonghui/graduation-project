@@ -37,6 +37,7 @@
         </button>
       </view>
     </view>
+    <view wx:if="{{ goodsList.length >= total }}" class="info">没有更多了...</view>
   </view>
   <view wx:else style="padding: 20rpx; border-top: 2rpx solid #ccc;">
     没有符合条件的商品......
