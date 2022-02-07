@@ -1,12 +1,42 @@
-<!--pages/search/search.wxml-->
-<input type="text" bindinput="bindSearchParam" value="{{searchParam}}" style="border: 1px solid #000;" />
-<view>
-  当前搜索的内容是：{{searchParam}}
+<view class="search">
+  <!-- 搜索栏 -->
+  <view class="search_input">
+    <input
+      type="text"
+      bindinput="bindSearchKey"
+      value="{{searchKey}}"
+      placeholder="搜索"
+    />
+  </view>
+  <!-- 所属地区，分类，以及排序方式 -->
+  <view class="search_info">
+    <view>
+      当前搜索的内容是：{{searchKey}}
+    </view>
+    <view>
+      当前搜索的地区是：{{searchArea}}
+    </view>
+    <view>
+      当前搜索的类型是：{{searchType}}
+    </view>
+  </view>
+  <!-- 搜索结果 -->
+  <view class="goods_list">
+    <view wx:for="{{ goodsList }}" wx:key="_id" class="goods_item">
+      <view class="goods_img">
+        <image src="{{item.imgs[0].img_url}}"></image>
+      </view>
+      <view class="goods_info">
+        <view class="goods_name">{{item.name}}</view>
+        <view>
+          <text style="color: red; font-size: 40rpx;">￥{{item.nowPrice}}</text>
+          <text style="color: #aaa; font-size: 26rpx; text-decoration: line-through;">￥{{ item.price }}</text>
+        </view>
+        <view class="goods_comment">{{item.comment.length ? item.comment.length+'条评价' : '暂无评价'}}</view>
+      </view>
+    </view>
+  </view>
 </view>
-<view>
-  当前搜索的地区是：{{searchArea}}
-</view>
-<view>
-  当前搜索的类型是：{{searchType}}
-</view>
+
+
 

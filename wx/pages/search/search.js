@@ -1,20 +1,31 @@
-// pages/search/search.js
+import { request } from '../../request/index'
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    searchParam: '',
-    searchArea: '全国',
-    searchType: '全部',
+    searchKey: '',
+    searchArea: '', // 所属地区
+    searchType: '', // 所属分类
+    searchOrder: '', // 排序方式
+    goodsList: [],
+    pageNumber: 1,
+    pageSize: 10,
+  },
+
+  bindSearchKey (e) {
+    this.setData({
+      searchKey: e.detail.value
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    if (options.area !== '年货') {
+    if (options.area !== '年货') { // 有个数据是年货，表示不限制地区
       this.setData({
         searchArea: options.area
       })
@@ -22,12 +33,27 @@ Page({
     this.setData({
       searchType: options.type
     })
+
+    // 获取goodsList 
+    this.getGoodsList()
+
   },
 
-  bindSearchParam (e) {
-    this.setData({
-      searchParam: e.detail.value
+  async getGoodsList () {
+    const { searchKey, searchType, searchArea, searchOrder, pageNumber, pageSize } = this.data
+    const result = await request('searchGoods', {
+      searchKey,
+      categoryName: searchType,
+      area: searchArea,
+      order: searchOrder,
+      pageNumber,
+      pageSize
     })
+    if (result.data.code === 'ok') {
+      this.setData({
+        goodsList: result.data.goodsList
+      })
+    }
   },
 
   /**

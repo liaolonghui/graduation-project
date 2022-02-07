@@ -10,8 +10,31 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   // models
   const User = require('../models/User')
   const Category = require('../models/Category')
+  
 
-  // 用户搜索  只显示state为true的
+  // 用户搜索商品  只显示state为true的
+  router.get('/searchGoods', async (req, res) => {
+
+    // 如果选中的分类是baseCategories里面的则要获取到 其孙级分类
+    let { categoryName, area, order, searchKey, pageSize=10, pageNumber=1 } = req.query // 分类名 地区 搜索关键字  以及排序方式（收藏数，销售量，价格）
+
+    pageNumber = parseInt(pageNumber)
+    pageSize = parseInt(pageSize)
+    const skipSum = (pageNumber - 1) * pageSize
+
+    const goodsList = await Goods.find({
+      name: {
+        $regex: searchKey,
+        $options: 'ig'
+      }
+    }).populate('category').populate('category').skip(skipSum).limit(pageSize)
+
+    res.send({
+      code: 'ok',
+      goodsList
+    })
+
+  })
 
 
   const verifyAdmin = async (req, res, next) => {
