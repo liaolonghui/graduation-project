@@ -15,7 +15,7 @@ Page({
     pageSize: 10,
     areaArray: ['湖北','陕西','江西','甘肃','四川','云南','广西','宁夏','新疆','河南','河北','黑龙江','青海','吉林','贵州'],
     cateArray: [],
-    orderArray: ['销量最高', '销量最低', '价格最高', '价格最低'],
+    orderArray: ['价格最高', '价格最低', '销量最高', '销量最低'],
   },
 
   bindOrderPickerChange: function(e) {
