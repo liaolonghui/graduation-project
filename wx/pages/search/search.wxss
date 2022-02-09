@@ -7,6 +7,16 @@
   border: 2rpx solid #ccc;
   border-radius: 20rpx;
 }
+.search .search_info {
+  display: flex;
+}
+.search .search_info > view {
+  flex: 1;
+  padding: 25rpx 10rpx;
+  text-align: center;
+  font-size: 12px;
+  border: 2rpx solid #ccc;
+}
 .search .goods_list {
   display: flex;
   flex-wrap: wrap;
@@ -49,4 +59,9 @@
 .search .goods_comment {
   font-size: 24rpx;
   color: #999;
+}
+.search .info {
+  padding: 20rpx 0;
+  text-align: center;
+  border: 2rpx solid #999;
 }

@@ -15,22 +15,81 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   // 用户搜索商品  只显示state为true的
   router.get('/searchGoods', async (req, res) => {
 
-    // 如果选中的分类是baseCategories里面的则要获取到 其孙级分类
     let { categoryName, area, order, searchKey, pageSize=10, pageNumber=1 } = req.query // 分类名 地区 搜索关键字  以及排序方式（收藏数，销售量，价格）
 
+    // 如果选中的分类是baseCategories里面的则要获取到 其孙级分类 (还有问题，还未实现传入基本分类 搜素的功能)
+    let flag = false
+    baseCategories.forEach(category => {
+      if (category === categoryName) {
+        flag = true
+      }
+    });
+    const category = await Category.findOne({name: categoryName})
+
+    // 计算获取哪部分数据
     pageNumber = parseInt(pageNumber)
     pageSize = parseInt(pageSize)
     const skipSum = (pageNumber - 1) * pageSize
 
-    const goodsList = await Goods.find({
+    // 搜索对象
+    let searchObj = {
       name: {
         $regex: searchKey,
         $options: 'ig'
       }
-    }).populate('category').populate('category').skip(skipSum).limit(pageSize)
+    }
+    if (area && area !== 'undefined') {
+      searchObj.area = area
+    }
+
+    // 如果不是基本分类的，就直接查找其category相同的
+    // matchObj 用于populate
+    let matchObj = null
+    if (category) {
+      if (!flag) {
+        searchObj.category = category._id
+      } else {
+
+        // 是
+        matchObj = { parent: category._id }
+
+      }
+    }
+
+    // 排序方式
+    let orderObj = null
+    switch (order) {
+      case '销量最高':
+        orderObj = { sale: -1 }
+        break;
+      case '销量最低':
+        orderObj = { sale: 1 }
+        break;
+      case '价格最高':
+        orderObj = { nowPrice: -1 }
+        break;
+      case '价格最低':
+        orderObj = { nowPrice: 1 }
+        break;
+      default:
+        break;
+    }
+
+    const total = await Goods.find(searchObj).countDocuments()
+    const goodsList = await Goods.find(searchObj).populate({
+      path: 'category',
+      select: 'parent',
+      populate: {
+        path: 'parent',
+        match: matchObj,
+        select: 'parent',
+        options: {}
+      }
+    }).skip(skipSum).limit(pageSize).sort(orderObj)
 
     res.send({
       code: 'ok',
+      total,
       goodsList
     })
 
