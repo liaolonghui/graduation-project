@@ -11,6 +11,7 @@ Page({
     searchType: '', // 所属分类
     searchOrder: '', // 排序方式
     goodsList: [],
+    total: 0,
     pageNumber: 1,
     pageSize: 10,
     areaArray: ['湖北','陕西','江西','甘肃','四川','云南','广西','宁夏','新疆','河南','河北','黑龙江','青海','吉林','贵州'],

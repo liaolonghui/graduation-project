@@ -24,7 +24,7 @@
 }
 .search .goods_item {
   width: 50%;
-  height: 600rpx;
+  height: 630rpx;
   overflow: hidden;
   padding: 5rpx;
   border-bottom: 2rpx solid #ccc;
@@ -55,6 +55,10 @@
   -webkit-box-orient: vertical;
   height: 80rpx;
   font-size: 30rpx;
+}
+.search .goods_category {
+  font-size: 26rpx;
+  color: #333;
 }
 .search .goods_comment {
   font-size: 24rpx;

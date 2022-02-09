@@ -54,6 +54,7 @@
             <text style="color: red; font-size: 40rpx;">￥{{item.nowPrice}}</text>
             <text wx:if="{{item.price}}" style="color: #aaa; font-size: 26rpx; text-decoration: line-through;">￥{{ item.price }}</text>
           </view>
+          <view class="goods_category">所属分类：{{item.category.name}}</view>
           <view class="goods_comment">{{item.comment.length ? item.comment.length+'条评价' : '暂无评价'}}</view>
         </view>
       </navigator>

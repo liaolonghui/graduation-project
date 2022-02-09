@@ -75,17 +75,30 @@ module.exports = (app, SERVER_URL, baseCategories) => {
         break;
     }
 
+    // 如果是基本分类就直接全返回，不做下拉加载
+    if (flag) {
+      let goodsList = await Goods.find(searchObj).populate({
+        path: 'category',
+        select: 'name parent',
+        populate: {
+          path: 'parent',
+          match: matchObj,
+          select: 'parent',
+          options: {}
+        }
+      }).sort(orderObj)
+      goodsList = goodsList.filter(goods => goods.category.parent)
+
+      res.send({
+        code: 'ok',
+        total: goodsList.length,
+        goodsList
+      })
+      return
+    }
+
     const total = await Goods.find(searchObj).countDocuments()
-    const goodsList = await Goods.find(searchObj).populate({
-      path: 'category',
-      select: 'parent',
-      populate: {
-        path: 'parent',
-        match: matchObj,
-        select: 'parent',
-        options: {}
-      }
-    }).skip(skipSum).limit(pageSize).sort(orderObj)
+    const goodsList = await Goods.find(searchObj).populate('category','name').skip(skipSum).limit(pageSize).sort(orderObj)
 
     res.send({
       code: 'ok',
