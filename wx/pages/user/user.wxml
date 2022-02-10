@@ -19,26 +19,52 @@
   <!-- shop -->
   <view class="user_order">
     <view class="order_wrap">
-      <view class="my_order">
-        我的订单
-      </view>
+      <navigator url="../userOrder/userOrder">
+        <view class="my_order">
+          <text>我的订单</text>
+          <text style="float: right; font-size: 28rpx; padding-top: 12rpx;">
+            <text style="color: #777;">查看全部</text>
+            <text style="font-size: 28rpx; color: #777;" class="iconfont icon-right"></text>
+          </text>
+        </view>
+      </navigator>
       <view class="order_type">
-        <view class="order_type_item">
-          <text class="iconfont icon-daifukuan"></text>
-          <text>待付款</text>
-        </view>
-        <view class="order_type_item">
-          <text class="iconfont icon-daifahuo"></text>
-          <text>待发货</text>
-        </view>
-        <view class="order_type_item">
-          <text class="iconfont icon-daishouhuo"></text>
-          <text>待收货</text>
-        </view>
-        <view class="order_type_item">
-          <text class="iconfont icon-daipingjia"></text>
-          <text>待评价</text>
-        </view>
+        <navigator
+          class="order_type_item"
+          url="../userOrder/userOrder?orderType=待付款"
+        >
+          <view class="order_type_item">
+            <text class="iconfont icon-daifukuan"></text>
+            <text>待付款</text>
+          </view>
+        </navigator>
+        <navigator
+          class="order_type_item"
+          url="../userOrder/userOrder?orderType=待收货"
+        >
+          <view class="order_type_item">
+            <text class="iconfont icon-daishouhuo"></text>
+            <text>待收货</text>
+          </view>
+        </navigator>
+        <navigator
+          class="order_type_item"
+          url="../userOrder/userOrder?orderType=待评价"
+        >
+          <view class="order_type_item">
+            <text class="iconfont icon-daipingjia"></text>
+            <text>待评价</text>
+          </view>
+        </navigator>
+        <navigator
+          class="order_type_item"
+          url="../userOrder/userOrder?orderType=已评价"
+        >
+          <view class="order_type_item">
+            <text class="iconfont icon-daifahuo"></text>            
+            <text>已评价</text>
+          </view>
+        </navigator>
       </view>
     </view>
   </view>

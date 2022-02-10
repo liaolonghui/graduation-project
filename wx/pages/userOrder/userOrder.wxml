@@ -1,0 +1,3 @@
+<view class="user_order">
+  查看的订单类型是：{{orderType}}
+</view>

@@ -13,7 +13,8 @@
     "pages/goodsAudit/goodsAudit",
     "pages/goodsRelease/goodsRelease",
     "pages/userFavorites/userFavorites",
-    "pages/goodsAdd/goodsAdd"
+    "pages/goodsAdd/goodsAdd",
+    "pages/userOrder/userOrder"
   ],
   "window": {
     "backgroundTextStyle": "light",
