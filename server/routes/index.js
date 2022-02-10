@@ -36,7 +36,8 @@ module.exports = (app, SERVER_URL, baseCategories) => {
       name: {
         $regex: searchKey,
         $options: 'ig'
-      }
+      },
+      state: true
     }
     if (area && area !== 'undefined' && area !== '不限制') {
       searchObj.area = area
