@@ -14,9 +14,9 @@ Page({
     total: 0,
     pageNumber: 1,
     pageSize: 10,
-    areaArray: ['湖北','陕西','江西','甘肃','四川','云南','广西','宁夏','新疆','河南','河北','黑龙江','青海','吉林','贵州'],
-    cateArray: [],
-    orderArray: ['价格最高', '价格最低', '销量最高', '销量最低'],
+    areaArray: ['不限制', '湖北','陕西','江西','甘肃','四川','云南','广西','宁夏','新疆','河南','河北','黑龙江','青海','吉林','贵州'],
+    cateArray: ['不限制'],
+    orderArray: ['时间(默认)', '价格最高', '价格最低', '销量最高', '销量最低'],
   },
 
   bindOrderPickerChange: function(e) {
@@ -79,7 +79,7 @@ Page({
     if (result.data.code === 'ok') {
       const cateArray = result.data.categories.map(item => item.name)
       this.setData({
-        cateArray
+        cateArray: this.data.cateArray.concat(cateArray)
       })
     }
   },

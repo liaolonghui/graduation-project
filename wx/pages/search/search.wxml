@@ -36,7 +36,7 @@
         range="{{orderArray}}"
       >
         <view class="picker">
-          分类：{{searchOrder || '请选择'}} <text class="iconfont icon-xiangxia1"></text>
+          顺序：{{searchOrder || '请选择'}} <text class="iconfont icon-xiangxia1"></text>
         </view>
       </picker>
     </view>

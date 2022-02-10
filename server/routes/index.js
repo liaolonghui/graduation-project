@@ -38,7 +38,7 @@ module.exports = (app, SERVER_URL, baseCategories) => {
         $options: 'ig'
       }
     }
-    if (area && area !== 'undefined') {
+    if (area && area !== 'undefined' && area !== '不限制') {
       searchObj.area = area
     }
 
