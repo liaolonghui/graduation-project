@@ -1,7 +1,12 @@
 <view class="cart">
   <!-- 购物车有商品 -->
   <view wx:if="{{cartData.length}}" class="goods_wrap">
-    有
+    <view class="goods_list">
+      <view wx:for="{{cartData}}" wx:key="goods._id" class="goods_item">
+        商品：{{item.goods.name}}
+        数量：{{item.count}}
+      </view>
+    </view>
   </view>
   <!-- 无商品 -->
   <view wx:else class="not_goods">

@@ -13,6 +13,17 @@ const schema = new mongoose.Schema({
     }
   },
   power: { type: String }, // 如果是super就是管理员，none就是普通用户
+  cart: [{ // 购物车
+    goods: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Goods'
+    },
+    count: { type: Number }
+  }],
+  favorites: [{ // 收藏夹
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Goods'
+  }]
 })
 
 module.exports = mongoose.model('User', schema)

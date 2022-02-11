@@ -12,6 +12,102 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   const Category = require('../models/Category')
   
 
+  const verifyAdmin = async (req, res, next) => {
+    // 获取用户权限，id，cart
+    const token = req.headers.authorization
+    const {id} = jwt.verify(token, app.get('secret'))
+    const user = await User.findById(id)
+
+    req.userId = user._id // id
+    req.power = user.power // 权限
+    req.cart = user.cart || [] // 购物车
+    req.favorites = user.favorites || [] // 收藏
+
+    await next()
+
+  }
+
+
+  // 获取商品详情
+  router.get('/getGoodsDetail', async (req, res) => {
+    const goodsId = req.query.goodsId
+    const goods = await Goods.findById(goodsId).populate('category', 'name')
+
+    res.send({
+      code: 'ok',
+      goods
+    })
+    
+  })
+  // 获取用户收藏
+  router.get('/getFavorites', verifyAdmin, async (req, res) => {
+    const id = req.userId
+    const { favorites } = await User.findById(id).populate('favorites') || []
+
+    res.send({
+      code: 'ok',
+      favorites
+    })
+  })
+  // 用户收藏某个商品
+  router.post('/collect', verifyAdmin, async (req, res) => {
+    const id = req.userId
+    const favorites = req.favorites
+    const goodsId = req.body.goodsId
+
+    if (!goodsId) return res.send({
+      code: 'bad',
+      msg: '请传递要收藏的商品id'
+    })
+
+    const result = await User.findByIdAndUpdate(id, {
+      $set: {
+        favorites: favorites.concat(goodsId)
+      }
+    })
+    res.send({
+      code: 'ok',
+      result
+    })
+
+  })
+  // 获取用户购物车信息
+  router.get('/getCart', verifyAdmin, async (req, res) => {
+    const id = req.userId
+    const { cart } = await User.findById(id).populate('cart') || []
+
+    res.send({
+      code: 'ok',
+      cart
+    })
+  })
+  // 添加到购物车
+  router.post('/addCart', verifyAdmin, async (req, res) => {
+    const id = req.userId
+    const cart = req.cart
+    const { goodsId, count } = req.body
+
+    const result = await User.findByIdAndUpdate(id, {
+      $set: {
+        cart: cart.concat({
+          goods: goodsId,
+          count
+        })
+      }
+    })
+    res.send({
+      code: 'ok',
+      result
+    })
+
+  })
+  // 从购物车中移除
+  // 生成订单    初始state为待付款
+  // 支付后      state改为待收货
+  // 收货后      state改为待评价
+  // 对商品评价（只有购买过才能评价）评价后将对应的订单改为已评价
+
+
   // 用户搜索商品  只显示state为true的
   router.get('/searchGoods', async (req, res) => {
 
@@ -110,18 +206,6 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   })
 
 
-  const verifyAdmin = async (req, res, next) => {
-    // 获取用户权限，id
-    const token = req.headers.authorization
-    const {id} = jwt.verify(token, app.get('secret'))
-    const user = await User.findById(id)
-
-    req.userId = user._id
-    req.power = user.power
-
-    await next()
-
-  }
   // 获取用户列表
   router.get('/getUserList', async (req, res) => {
     let { searchKey='', pageNumber=1, pageSize=10 } = req.query

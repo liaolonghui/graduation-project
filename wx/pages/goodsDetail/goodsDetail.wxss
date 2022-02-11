@@ -1,1 +1,67 @@
-/* pages/goodsDetail/goodsDetail.wxss */
+page {
+  height: 100%;
+}
+.goods_detail {
+  height: 100%;
+  padding-bottom: 110rpx;
+  background-color: #fafafa;
+  box-sizing: border-box;
+}
+.goods_detail .swiper {
+  height: 700rpx;
+  background-color: #fff;
+}
+.goods_detail .swiper swiper {
+  height: 100%;
+}
+.goods_detail .swiper image {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  margin: auto;
+}
+.goods_detail .goods_info {
+  margin: 20rpx 0;
+  padding: 20rpx;
+  background-color: #fff;
+}
+.goods_detail .rich_text {
+  margin-top: 20rpx;
+  padding: 20rpx;
+  background-color: #fff;
+}
+.goods_detail .bottom_bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 110rpx;
+  text-align: center;
+  border-top: 2rpx solid #ddd;
+  background-color: #fff;
+}
+.goods_detail .love {
+  width: 200rpx;
+  border-right: 2rpx solid #ddd;
+}
+.goods_detail .addCart,
+.goods_detail .buy {
+  height: 100%;
+  flex: 1;
+  line-height: 110rpx;
+  color: #fff;
+}
+.goods_detail .addCart {
+  background-color: orange;
+}
+.goods_detail .buy {
+  background-color: #eb4450;
+}
+.goods_detail .not_goods {
+  width: 500rpx;
+  text-align: center;
+  margin: 400rpx auto 0 auto;
+}

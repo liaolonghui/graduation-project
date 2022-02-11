@@ -1,3 +1,5 @@
+import { request } from "../../request/index"
+
 // pages/goodsDetail/goodsDetail.js
 Page({
 
@@ -5,16 +7,25 @@ Page({
    * 页面的初始数据
    */
   data: {
-    goodsId: ''
+    goods: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      goodsId: options.goodsId
+    this.getGoods(options.goodsId)
+  },
+
+  async getGoods (goodsId) {
+    const result = await request('getGoodsDetail', {
+      goodsId
     })
+    if (result.data.code === 'ok') {
+      this.setData({
+        goods: result.data.goods
+      })
+    }
   },
 
   /**

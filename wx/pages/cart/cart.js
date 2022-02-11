@@ -1,4 +1,5 @@
-// pages/cart/cart.js
+import { request } from '../../request/index'
+
 Page({
 
   /**
@@ -12,7 +13,19 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.getCart()
+  },
 
+  async getCart () {
+    const token = wx.getStorageSync('token')
+    const result = await request('getCart', {}, 'get', {
+      authorization: token
+    })
+    if (result.data.code === 'ok') {
+      this.setData({
+        cartData: result.data.cart
+      })
+    }
   },
 
   // 去首页

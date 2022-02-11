@@ -1,3 +1,52 @@
 <view class="goods_detail">
-  商品的ID是：{{goodsId}}
+  <view wx:if="{{goods._id}}" class="goods_wrap">
+    <!-- 轮播 -->
+    <view class="swiper">
+      <swiper indicator-dots autoplay circular>
+        <block wx:for="{{goods.imgs}}" wx:key="_id">
+          <swiper-item>
+            <image src="{{item.img_url}}" mode="widthFix"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <!-- 一些商品信息 -->
+    <view class="goods_info">
+      <view>{{goods.name}}</view>
+      <view class="price">
+        <text>￥{{goods.nowPrice}}</text>
+        <text>￥{{goods.price}}</text>
+      </view>
+      <view class="amount">
+        剩余货存：{{goods.amount || 0}}
+      </view>
+      <view class="sale">
+        累计销量：{{goods.sale || 0}}
+      </view>
+    </view>
+    <!-- 提示信息 -->
+    <!-- 评论 -->
+    <!-- 富文本 -->
+    <view class="rich_text">
+      <rich-text nodes="{{goods.html}}"></rich-text>
+    </view>
+    <!-- fixed底栏 -->
+    <view class="bottom_bar">
+      <!-- 收藏 -->
+      <view class="love">
+        <text style="font-size: 45rpx;" class="iconfont icon-nolove"></text>
+        <view>收藏</view>
+      </view>
+      <!-- 加入购物车 -->
+      <view class="addCart">
+        加入购物车
+      </view>
+      <!-- 立即购买 -->
+      <view class="buy">
+        立即购买
+      </view>
+    </view>
+  </view>
+  <!-- 商品不存在 -->
+  <view wx:else class="not_goods">商品不存在</view>
 </view>
