@@ -17,6 +17,9 @@
         <text style="color: red;">￥<text style="color: red; font-size: 42rpx;">{{goods.nowPrice}}</text></text>
         <text wx:if="{{goods.price}}"> 原价: <text style="text-decoration: line-through;">￥{{goods.price}}</text></text>
       </view>
+      <view class="category">
+        所属分类：{{goods.category.name}}
+      </view>
       <view class="amount">
         剩余货存：{{goods.amount || 0}}
       </view>
@@ -83,8 +86,8 @@
     <!-- fixed底栏 -->
     <view class="bottom_bar">
       <!-- 收藏 -->
-      <view class="love">
-        <text style="font-size: 45rpx;" class="iconfont icon-nolove"></text>
+      <view bindtap="ChangeFavorites" class="love">
+        <text style="font-size: 45rpx;" class="iconfont {{ filter.isLove(userFavorites, goods._id) ? 'icon-love' : 'icon-nolove' }}"></text>
         <view>收藏</view>
       </view>
       <!-- 加入购物车 -->
@@ -111,5 +114,9 @@ function formatTime (time) {
 
   return y + '-' + m + '-' + d
 }
+function isLove (loves, goods) {
+  return loves.indexOf(goods) > -1
+}
 module.exports.formatTime = formatTime
+module.exports.isLove = isLove
 </wxs>

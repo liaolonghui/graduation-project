@@ -32,6 +32,7 @@
 
 .icon-love:before {
   content: "\e607";
+  color: red;
 }
 
 .icon-shop:before {

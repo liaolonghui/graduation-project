@@ -1,3 +1,5 @@
+import { request } from "../../request/index"
+
 // pages/userFavorites/userFavorites.js
 Page({
 
@@ -5,14 +7,35 @@ Page({
    * 页面的初始数据
    */
   data: {
+    favorites: []
+  },
 
+  toGoodsDetail (e) {
+    const goodsId = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '../goodsDetail/goodsDetail?goodsId=' + goodsId,
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
+  },
 
+  async getFavorites () {
+    const token = wx.getStorageSync('token')
+    const result = await request('getFavorites', {
+      detail: true
+    }, 'get', {
+      authorization: token
+    })
+    if (result.data.code === 'ok') {
+      this.setData({
+        favorites: result.data.favorites
+      })
+    }
   },
 
   /**
@@ -26,7 +49,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getFavorites()
   },
 
   /**

@@ -1,1 +1,26 @@
-/* pages/userFavorites/userFavorites.wxss */
+.user_favorites .goods_item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  border-bottom: 2rpx solid #ccc;
+}
+.user_favorites .goods_item:nth-child(1) {
+  border-top: 2rpx solid #ccc;
+}
+.user_favorites image {
+  width: 150rpx;
+  height: 150rpx;
+  margin-right: 20rpx;
+  border-radius: 50%;
+}
+.user_favorites .goods_info view {
+  width: 540rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.user_favorites .info {
+  padding: 20rpx 0;
+  text-align: center;
+  border-bottom: 2rpx solid #ccc;
+}

@@ -7,11 +7,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+    userFavorites: [],
     goods: {},
     showAllCommentsBool: false,
   },
 
   showAllComments () {
+    if (!this.data.goods.comments.length) return
     this.setData({
       showAllCommentsBool: !this.data.showAllCommentsBool
     })
@@ -22,6 +24,19 @@ Page({
    */
   onLoad: function (options) {
     this.getGoods(options.goodsId)
+    this.getFavorites()
+  },
+
+  async getFavorites () {
+    const token = wx.getStorageSync('token')
+    const result = await request('getFavorites', {}, 'get', {
+      authorization: token
+    })
+    if (result.data.code === 'ok') {
+      this.setData({
+        userFavorites: result.data.favorites
+      })
+    }
   },
 
   async getGoods (goodsId) {
@@ -31,6 +46,22 @@ Page({
     if (result.data.code === 'ok') {
       this.setData({
         goods: result.data.goods
+      })
+    }
+  },
+
+  // 添加或删除收藏
+  async ChangeFavorites () {
+    const goodsId = this.data.goods._id
+    const token = wx.getStorageSync('token')
+    const result = await request('collect', {
+      goodsId
+    }, 'post', {
+      authorization: token
+    })
+    if (result.data.code === 'ok') {
+      this.setData({
+        userFavorites: result.data.favorites
       })
     }
   },

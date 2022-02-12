@@ -41,18 +41,29 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   })
   // 获取用户收藏
   router.get('/getFavorites', verifyAdmin, async (req, res) => {
-    const id = req.userId
-    const { favorites } = await User.findById(id).populate('favorites') || []
+    let favorites = null
+    const { detail } = req.query // 如果是要获取更详细的信息
+    if (detail) {
+      const user = await User.findById(req.userId).populate({
+        path: 'favorites',
+        populate: {
+          path: 'category'
+        }
+      })
+      favorites = user.favorites
+    } else {
+      favorites = req.favorites
+    }
 
     res.send({
       code: 'ok',
       favorites
     })
   })
-  // 用户收藏某个商品
+  // 用户收藏或取消收藏某个商品
   router.post('/collect', verifyAdmin, async (req, res) => {
     const id = req.userId
-    const favorites = req.favorites
+    let oldFavorites = req.favorites
     const goodsId = req.body.goodsId
 
     if (!goodsId) return res.send({
@@ -60,17 +71,30 @@ module.exports = (app, SERVER_URL, baseCategories) => {
       msg: '请传递要收藏的商品id'
     })
 
-    const result = await User.findByIdAndUpdate(id, {
+    // 如果已存在就删除，不存在就收藏
+    const index = oldFavorites.indexOf(goodsId)
+    if (index > -1) {
+      // 有
+      oldFavorites.splice(index, 1)
+    } else {
+      // 无
+      oldFavorites = oldFavorites.concat(goodsId)
+    }
+
+    await User.findByIdAndUpdate(id, {
       $set: {
-        favorites: favorites.concat(goodsId)
+        favorites: oldFavorites
       }
     })
+    const {favorites} = await User.findById(id) || []
+
     res.send({
       code: 'ok',
-      result
+      favorites
     })
 
   })
+
   // 获取用户购物车信息
   router.get('/getCart', verifyAdmin, async (req, res) => {
     const id = req.userId
@@ -607,16 +631,16 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     res.send({
       recommend: [
         {
-          goods_id: 55555,
+          goods_id: '6207bf4415ffbaaff8677450',
           recommend_img: `${SERVER_URL}/imgs/recommend/1.jpg`,
           open_type: 'navigate',
-          navigator_url: '/pages/goodsDetail/goodsDetail?goodsId=55555'
+          navigator_url: '/pages/goodsDetail/goodsDetail?goodsId=6207bf4415ffbaaff8677450'
         },
         {
-          goods_id: 666666,
+          goods_id: '6207c01f15ffbaaff867749c',
           recommend_img: `${SERVER_URL}/imgs/recommend/2.jpg`,
           open_type: 'navigate',
-          navigator_url: '/pages/goodsDetail/goodsDetail?goodsId=66666'
+          navigator_url: '/pages/goodsDetail/goodsDetail?goodsId=6207c01f15ffbaaff867749c'
         }
       ]
     })

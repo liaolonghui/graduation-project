@@ -33,6 +33,7 @@
   font-size: 28rpx;
   color: #aaa;
 }
+.goods_detail .goods_info .category,
 .goods_detail .goods_info .sale,
 .goods_detail .goods_info .amount {
   padding: 4rpx 0;
@@ -105,7 +106,12 @@
   background-color: #fff;
 }
 .goods_detail .love {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 200rpx;
+  height: 100%;
   border-right: 2rpx solid #ddd;
 }
 .goods_detail .addCart,
