@@ -12,10 +12,10 @@
     </view>
     <!-- 一些商品信息 -->
     <view class="goods_info">
-      <view>{{goods.name}}</view>
+      <view class="goods_name">{{goods.name}}</view>
       <view class="price">
-        <text>￥{{goods.nowPrice}}</text>
-        <text>￥{{goods.price}}</text>
+        <text style="color: red;">￥<text style="color: red; font-size: 42rpx;">{{goods.nowPrice}}</text></text>
+        <text wx:if="{{goods.price}}"> 原价: <text style="text-decoration: line-through;">￥{{goods.price}}</text></text>
       </view>
       <view class="amount">
         剩余货存：{{goods.amount || 0}}
@@ -25,7 +25,57 @@
       </view>
     </view>
     <!-- 提示信息 -->
+    <view class="alert_info">
+      <text>
+        <text class="iconfont icon-yes"></text>
+        <text>七天无理由退货</text>
+      </text>
+      <text>
+        <text class="iconfont icon-yes"></text>
+        <text>正品保障</text>
+      </text>
+      <text>
+        <text class="iconfont icon-yes"></text>
+        <text>48小时发货</text>
+      </text>
+      <text><text style="float: right; padding-right: 10rpx;" class="iconfont icon-right"></text></text>
+    </view>
     <!-- 评论 -->
+    <view class="goods_comment">
+      <view class="header_wrap">
+        <view class="header">
+          <text>商品评价({{goods.comments.length}})</text>
+          <text style="float: right;"><text class="iconfont icon-right"></text></text>
+        </view>
+      </view>
+      <view class="comment_wrap">
+        <view wx:if="{{goods.comments.length}}" class="comment_list">
+          <!-- 先展示一条 -->
+          <view wx:if="{{!showAllCommentsBool}}">
+            <view class="comment_item">
+              <view class="comment_info">
+                <text>{{ goods.comments[goods.comments.length-1].name }}</text>
+                <text>{{ filter.formatTime(goods.comments[goods.comments.length-1].time) }}</text>
+              </view>
+              <view class="comment_content">{{ goods.comments[goods.comments.length-1].content }}</view>
+            </view>
+          </view>
+          <!-- 点击显示全部后显示 -->
+          <view wx:else>
+            <view class="comment_item" wx:for="{{goods.comments}}" wx:key="time">
+              <view class="comment_info">
+                <text>{{ item.name }}</text>
+                <text>{{ filter.formatTime(item.time) }}</text>
+              </view>
+              <view class="comment_content">{{item.content}}</view>
+            </view>
+          </view>
+        </view>
+        <view bindtap="showAllComments" class="all_comment">
+          {{ showAllCommentsBool ? '收起全部评价' : '查看全部评价' }}
+        </view>
+      </view>
+    </view>
     <!-- 富文本 -->
     <view class="rich_text">
       <rich-text nodes="{{goods.html}}"></rich-text>
@@ -50,3 +100,16 @@
   <!-- 商品不存在 -->
   <view wx:else class="not_goods">商品不存在</view>
 </view>
+
+<wxs module="filter">
+function formatTime (time) {
+  time = parseInt(time)
+  var date = getDate(time)
+  var y = date.getFullYear()
+  var m = date.getMonth() + 1
+  var d = date.getDate()
+
+  return y + '-' + m + '-' + d
+}
+module.exports.formatTime = formatTime
+</wxs>

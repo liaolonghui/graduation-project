@@ -7,7 +7,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    goods: {}
+    goods: {},
+    showAllCommentsBool: false,
+  },
+
+  showAllComments () {
+    this.setData({
+      showAllCommentsBool: !this.data.showAllCommentsBool
+    })
   },
 
   /**

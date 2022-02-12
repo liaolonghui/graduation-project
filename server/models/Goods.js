@@ -28,11 +28,11 @@ const schema = new mongoose.Schema({
   nowPrice: { type: Number }, // 现价
   amount: { type: Number }, // 货存数量
   sale: { type: Number }, // 已出售量
+  freight: {type: Number}, // 运费
   tele: { type: Number }, // 售后电话
   comments: [ // 评论
     {
       name: String,
-      score: Number, // 得分 1-5
       time: String, // 评价发布时间
       content: String,
     }
