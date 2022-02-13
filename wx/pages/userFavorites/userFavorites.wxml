@@ -5,7 +5,7 @@
     </view>
     <view class="goods_info">
       <view>商品名称：{{item.name}}</view>
-      <view>商品价格：{{item.nowPrice}}</view>
+      <view>商品价格：￥{{item.nowPrice}}</view>
       <view>商品分类：{{item.category.name}}</view>
     </view>
   </view>

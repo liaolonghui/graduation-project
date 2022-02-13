@@ -95,9 +95,6 @@
   background-color: #fff;
   box-sizing: border-box;
 }
-.goods_detail .rich_text img {
-  width: 100% !important;
-}
 .goods_detail .bottom_bar {
   position: fixed;
   bottom: 0;

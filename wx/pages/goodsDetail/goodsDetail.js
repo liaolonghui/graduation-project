@@ -48,7 +48,7 @@ Page({
       // &lt;转<  &gt;转>
       result.data.goods.html = result.data.goods.html.replace(/&lt;/g, '<')
       result.data.goods.html = result.data.goods.html.replace(/&gt;/g, '>')
-      result.data.goods.html = result.data.goods.html.replace(/<img/g, '<img style="width: 100%;"')
+      result.data.goods.html = result.data.goods.html.replace(/<img/g, '<img style="width: 100% !important;"')
       this.setData({
         goods: result.data.goods
       })
