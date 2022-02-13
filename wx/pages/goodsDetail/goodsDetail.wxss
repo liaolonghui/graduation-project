@@ -89,9 +89,14 @@
   border-radius: 40rpx;
 }
 .goods_detail .rich_text {
+  width: 100%;
   margin: 20rpx 0;
   padding: 20rpx;
   background-color: #fff;
+  box-sizing: border-box;
+}
+.goods_detail .rich_text img {
+  width: 100% !important;
 }
 .goods_detail .bottom_bar {
   position: fixed;
