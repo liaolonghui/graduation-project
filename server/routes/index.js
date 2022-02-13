@@ -98,7 +98,7 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   // 获取用户购物车信息
   router.get('/getCart', verifyAdmin, async (req, res) => {
     const id = req.userId
-    const { cart } = await User.findById(id).populate('cart') || []
+    const { cart } = await User.findById(id).populate('cart.goods') || []
 
     res.send({
       code: 'ok',
@@ -126,6 +126,7 @@ module.exports = (app, SERVER_URL, baseCategories) => {
 
   })
   // 从购物车中移除
+  
   // 生成订单    初始state为待付款
   // 支付后      state改为待收货
   // 收货后      state改为待评价

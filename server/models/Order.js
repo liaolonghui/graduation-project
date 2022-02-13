@@ -20,6 +20,7 @@ const schema = new mongoose.Schema({
   count: { type: Number }, // 数量
   price: { type: Number }, // 价格（当前购买时的价格）
   freight: {type: Number}, // 运费
+  to: { type: String }, // 地址
 })
 
 module.exports = mongoose.model('Order', schema)

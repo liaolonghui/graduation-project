@@ -10,13 +10,54 @@ Page({
     userFavorites: [],
     goods: {},
     showAllCommentsBool: false,
+    countModalBool: false,
+    count: 1,
   },
 
   showAllComments () {
-    if (!this.data.goods.comments.length) return
+    if (this.data.goods.comments.length <= 1) return
     this.setData({
       showAllCommentsBool: !this.data.showAllCommentsBool
     })
+  },
+
+  // 显示选中数量的对话框
+  showCountModal () {
+    this.setData({
+      countModalBool: true
+    })
+  },
+  hideCountModal () {
+    this.setData({
+      countModalBool: false
+    })
+  },
+
+  // 改变count
+  changeCount (e) {
+    const count = this.data.count
+    const amount = this.data.goods.amount
+    switch (e.target.dataset.o) {
+      case '-':
+        if (count <= 1) return
+        this.setData({
+          count: this.data.count - 1
+        })
+        break;
+      case '+':
+        if (count >= amount) return
+        this.setData({
+          count: this.data.count + 1
+        })
+        break;
+      default:
+        break;
+    }
+  },
+
+  // 禁止用户滑动
+  stopTouch (e) {
+    return
   },
 
   /**
@@ -25,6 +66,33 @@ Page({
   onLoad: function (options) {
     this.getGoods(options.goodsId)
     this.getFavorites()
+  },
+
+  // 加入购物车
+  async addCart () {
+    const token = wx.getStorageSync('token')
+    const goodsId = this.data.goods._id
+    const count = this.data.count
+    const result = await request('addCart', {
+      goodsId,
+      count
+    }, 'post', {
+      authorization: token
+    })
+    if (result.data.code === 'ok') {
+      wx.showToast({
+        title: '添加购物车成功',
+        icon: 'none'
+      })
+      this.setData({
+        showCountModalBool: false,
+        count: 1
+      })
+    }
+  },
+  // 购买
+  async buy () {
+
   },
 
   async getFavorites () {

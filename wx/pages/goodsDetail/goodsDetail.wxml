@@ -91,12 +91,48 @@
         <view>收藏</view>
       </view>
       <!-- 加入购物车 -->
-      <view class="addCart">
+      <view bindtap="showCountModal" class="addCart">
         加入购物车
       </view>
       <!-- 立即购买 -->
-      <view class="buy">
+      <view bindtap="showCountModal" class="buy">
         立即购买
+      </view>
+    </view>
+    <!-- countModal 选中数量的对话框 -->
+    <!-- 遮罩层 -->
+    <view
+      style="display: {{ countModalBool ? 'block' : 'none' }};"
+      class="mask"
+      catchtouchmove="stopTouch"
+      bindtap="hideCountModal"
+    ></view>
+    <view style="bottom: {{ countModalBool ? '0' : '-500rpx' }};" class="count_modal" catchtouchmove="stopTouch">
+      <!-- 商品信息 -->
+      <view class="top">
+        <view class="img">
+          <image src="{{goods.imgs[0].img_url}}" mode="widthFix"></image>
+        </view>
+        <view class="info">
+          <view class="price">￥{{goods.nowPrice}}</view>
+          <view>{{goods.name}}</view>
+        </view>
+        <!-- close -->
+        <text bindtap="hideCountModal" class="iconfont icon-close"></text>
+      </view>
+      <!-- 购买数量 -->
+      <view class="count">
+        <view>购买数量</view>
+        <view bindtap="changeCount" class="change_count">
+          <view data-o="-">-</view>
+          <view class="show_count">{{count}}</view>
+          <view data-o="+">+</view>
+        </view>
+      </view>
+      <!-- 操作 -->
+      <view class="operation">
+        <view bindtap="addCart" class="addCart">加入购物车</view>
+        <view bindtap="buy" class="buy">立即购买</view>
       </view>
     </view>
   </view>

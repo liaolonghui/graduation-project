@@ -2,7 +2,7 @@
   <!-- 购物车有商品 -->
   <view wx:if="{{cartData.length}}" class="goods_wrap">
     <view class="goods_list">
-      <view wx:for="{{cartData}}" wx:key="goods._id" class="goods_item">
+      <view wx:for="{{cartData}}" wx:key="_id" class="goods_item">
         商品：{{item.goods.name}}
         数量：{{item.count}}
       </view>

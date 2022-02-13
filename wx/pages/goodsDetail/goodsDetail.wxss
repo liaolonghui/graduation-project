@@ -127,10 +127,81 @@
   background-color: orange;
 }
 .goods_detail .buy {
-  background-color: #eb4450;
+  background-color: red;
 }
 .goods_detail .not_goods {
   width: 500rpx;
   text-align: center;
   margin: 400rpx auto 0 auto;
+}
+/* count_modal */
+.count_modal {
+  position: fixed;
+  z-index: 666;
+  left: 0;
+  transition: bottom 0.3s ease-in-out;
+}
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #333;
+  opacity: 0.5;
+}
+.count_modal .top {
+  display: flex;
+  align-items: center;
+  height: 200rpx;
+  padding: 10rpx 20rpx;
+  overflow: hidden;
+  background-color: #fff;
+}
+.count_modal .top .icon-close {
+  position: absolute;
+  right: 20rpx;
+  top: 20rpx;
+  font-size: 40rpx;
+  font-weight: 550;
+}
+.count_modal .top image {
+  max-width: 200rpx;
+}
+.count_modal .top .info {
+  padding-left: 20rpx;
+}
+.count_modal .top .price {
+  color: red;
+  font-size: 40rpx;
+}
+.count_modal .count {
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  height: 80rpx;
+  padding: 0 30rpx;
+  background-color: #fff;
+}
+.count_modal .change_count {
+  display: flex;
+}
+.count_modal .change_count view {
+  width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  border: 2rpx solid #ccc;
+}
+.count_modal .change_count .show_count {
+  width: 80rpx;
+}
+.count_modal .operation {
+  display: flex;
+  align-items: center;
+}
+.count_modal .operation > view {
+  flex: 1;
+  text-align: center;
+  color: #fff;
 }
