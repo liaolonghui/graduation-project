@@ -1,9 +1,6 @@
-.goods_release {
-  padding: 0 20rpx;
-}
+
 .goods_release .add_goods_btn {
-  margin: 20rpx 0;
-  padding-bottom: 20rpx;
+  padding: 20rpx;
   border-bottom: 1px solid #ccc;
 }
 .goods_release .add_goods_btn button {
@@ -14,8 +11,7 @@
 .goods_release .goods_list_wrap .goods_item {
   padding: 20rpx 28rpx;
   margin: 10rpx 0;
-  border: 1px solid #ccc;
-  border-radius: 25rpx;
+  border-bottom: 2rpx solid #ccc;
 }
 .goods_release .goods_item {
   display: flex;
@@ -23,7 +19,7 @@
   align-items: center;
 }
 .goods_release .goods_info view {
-  width: 310rpx;
+  width: 350rpx;
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -13,7 +13,7 @@
           <view class="`tag tag_{{ item.level }}`">{{item.level}}</view>
         </view>
         <view class="category_btn">
-          <button bindtap="showUpdateCategoryDialog" data-index="{{index}}">修改</button>
+          <button bindtap="showUpdateCategoryDialog" data-index="{{index}}" style="color: rgb(86, 86, 240);">修改</button>
           <button type="warn" bindtap="deleteCategory" data-index="{{index}}">删除</button>
         </view>
       </view>
