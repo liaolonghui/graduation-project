@@ -140,9 +140,41 @@ module.exports = (app, SERVER_URL, baseCategories) => {
 
   })
   // 从购物车中移除
-  
-  // 增加或减少购物车某商品的数量
+  router.delete('/deleteCart', verifyAdmin, async (req, res) => {
+    // 传入的 goodsArr 是一个goodsId数组，删除多个
 
+  })
+  // 改变购物车某商品的数量
+  router.post('/changeGoodsCount', verifyAdmin, async (req, res) => {
+    const {goodsId, count} = req.body
+
+    if (count < 1) return res.send({
+      code: 'bad',
+      msg: '商品数量不能小于1'
+    })
+
+    const userId = req.userId
+    let cart = req.cart
+
+    cart = cart.map(c => {
+      if (c.goods.toString() === goodsId) {
+        c.count = count
+      }
+      return c
+    })
+
+    const result = await User.findByIdAndUpdate(userId, {
+      $set: {
+        cart
+      }
+    })
+
+    res.send({
+      code: 'ok',
+      result
+    })
+
+  })
   // 生成订单    初始state为待付款
   // 支付后      state改为待收货
   // 收货后      state改为待评价
