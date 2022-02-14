@@ -23,6 +23,18 @@ Page({
 
   // 显示选中数量的对话框
   showCountModal () {
+    // 如果用户没有登录就提示用户登录并跳转（这里用token判断）
+    const token = wx.getStorageSync('token')
+    if (!token) {
+      wx.navigateTo({
+        url: '../login/login',
+      })
+      wx.showToast({
+        title: '请在登录后操作',
+        icon: 'none'
+      })
+      return
+    }
     this.setData({
       countModalBool: true
     })
@@ -65,7 +77,6 @@ Page({
    */
   onLoad: function (options) {
     this.getGoods(options.goodsId)
-    this.getFavorites()
   },
 
   // 加入购物车
@@ -85,7 +96,7 @@ Page({
         icon: 'none'
       })
       this.setData({
-        showCountModalBool: false,
+        countModalBool: false,
         count: 1
       })
     }
@@ -125,8 +136,19 @@ Page({
 
   // 添加或删除收藏
   async ChangeFavorites () {
-    const goodsId = this.data.goods._id
+    // 如果用户没有登录就提示用户登录并跳转（这里用token判断）
     const token = wx.getStorageSync('token')
+    if (!token) {
+      wx.navigateTo({
+        url: '../login/login',
+      })
+      wx.showToast({
+        title: '请在登录后操作',
+        icon: 'none'
+      })
+      return
+    }
+    const goodsId = this.data.goods._id
     const result = await request('collect', {
       goodsId
     }, 'post', {
@@ -150,7 +172,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getFavorites()
   },
 
   /**

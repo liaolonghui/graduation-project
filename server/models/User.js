@@ -23,7 +23,10 @@ const schema = new mongoose.Schema({
   favorites: [{ // 收藏夹
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'Goods'
-  }]
+  }],
+  defaultAddress: { // 默认地址
+    type: String, 
+  }
 })
 
 module.exports = mongoose.model('User', schema)

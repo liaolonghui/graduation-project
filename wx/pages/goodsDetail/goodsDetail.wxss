@@ -139,6 +139,7 @@
   position: fixed;
   z-index: 666;
   left: 0;
+  width: 100%;
   transition: bottom 0.3s ease-in-out;
 }
 .mask {

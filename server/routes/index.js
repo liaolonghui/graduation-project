@@ -15,6 +15,12 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   const verifyAdmin = async (req, res, next) => {
     // 获取用户权限，id，cart
     const token = req.headers.authorization
+    if (!token) {
+      return res.send({
+        code: 'bad',
+        msg: '请在登录后操作'
+      })
+    }
     const {id} = jwt.verify(token, app.get('secret'))
     const user = await User.findById(id)
 
@@ -108,15 +114,23 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   // 添加到购物车
   router.post('/addCart', verifyAdmin, async (req, res) => {
     const id = req.userId
-    const cart = req.cart
+    let cart = req.cart
     const { goodsId, count } = req.body
+
+    // 如果是已存在的货物则在原先基础上增加数量
+    let flag = false
+    cart = cart.map(c => {
+      if (c.goods.toString() === goodsId) {
+        flag = true
+        c.count += count
+      }
+      return c
+    })
+
 
     const result = await User.findByIdAndUpdate(id, {
       $set: {
-        cart: cart.concat({
-          goods: goodsId,
-          count
-        })
+        cart: flag ? cart : cart.concat({ goods: goodsId, count })
       }
     })
     res.send({
@@ -127,6 +141,8 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   })
   // 从购物车中移除
   
+  // 增加或减少购物车某商品的数量
+
   // 生成订单    初始state为待付款
   // 支付后      state改为待收货
   // 收货后      state改为待评价
