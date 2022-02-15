@@ -5,6 +5,7 @@ page {
   min-height: 100%;
   padding-bottom: 100rpx;
   background-color: #fafafa;
+  box-sizing: border-box;
 }
 .cart .goods_list {
   padding-top: 20rpx;
@@ -22,6 +23,9 @@ page {
 .cart .goods_item .select .iconfont {
   padding: 20rpx;
   font-size: 45rpx;
+}
+.cart .select .black-color:before {
+  color: #333;
 }
 .cart .goods_item image {
   max-width: 150rpx;

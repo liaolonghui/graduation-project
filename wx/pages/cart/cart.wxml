@@ -5,7 +5,11 @@
     <view class="goods_list">
       <view wx:for="{{cartData}}" wx:key="_id" class="goods_item">
         <view class="select">
-          <text class="iconfont icon-yes"></text>
+          <text
+            data-index="{{index}}"
+            bindtap="selectGoods"
+            class="iconfont icon-yes {{ filter.isSelect(selectGoods, item.goods._id) ? '' : 'black-color' }}"
+          ></text>
         </view>
         <view class="img">
           <image src="{{item.goods.imgs[0].img_url}}"></image>
@@ -32,15 +36,15 @@
     <!-- 操作 -->
     <view class="operation">
       <!-- 全选 -->
-      <view class="select">
-        <text class="iconfont icon-yes"></text>
+      <view bindtap="selectAll" class="select">
+        <text class="iconfont icon-yes {{ filter.allSelect(selectGoods, cartData) ? '' : 'black-color' }}"></text>
         <text>全选</text>
       </view>
       <view class="delete_buy">
         <!-- 删除 -->
-        <view class="delete">删除</view>
+        <view bindtap="delete" class="delete">删除</view>
         <!-- 去结算 -->
-        <view class="buy">去结算</view>
+        <view bindtap="buy" class="buy">去结算</view>
       </view>
     </view>
   </view>
@@ -51,3 +55,20 @@
     <button bindtap="toIndex" class="not_goods_btn">去逛逛</button>
   </view>
 </view>
+
+<wxs module="filter">
+  function isSelect (selectGoods, goodsId) {
+    var len = selectGoods.length
+    for (var i=0; i<len; i++) {
+      if (selectGoods[i].goods._id === goodsId) {
+        return true
+      }
+    }
+    return false
+  }
+  function allSelect (selectGoods, cartAllGoods) {
+    return selectGoods.length === cartAllGoods.length
+  }
+  module.exports.isSelect = isSelect
+  module.exports.allSelect = allSelect
+</wxs>

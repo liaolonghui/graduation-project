@@ -141,8 +141,26 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   })
   // 从购物车中移除
   router.delete('/deleteCart', verifyAdmin, async (req, res) => {
+    let cart = req.cart
+    const goodsArr = req.body.goodsArr
     // 传入的 goodsArr 是一个goodsId数组，删除多个
-
+    for (let i = 0; i < goodsArr.length; i++) {
+      for (let j = 0; j < cart.length; j++) {
+        if (cart[j].goods.toString() === goodsArr[i]) {
+          cart.splice(j, 1)
+          j--
+        }
+      }
+    }
+    const result = await User.findByIdAndUpdate(req.userId, {
+      $set: {
+        cart
+      }
+    })
+    res.send({
+      code: 'ok',
+      result
+    })
   })
   // 改变购物车某商品的数量
   router.post('/changeGoodsCount', verifyAdmin, async (req, res) => {

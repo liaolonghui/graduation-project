@@ -6,7 +6,44 @@ Page({
    * 页面的初始数据
    */
   data: {
-    cartData: []
+    cartData: [], // 购物车商品
+    selectGoods: [], // 选中的商品
+  },
+
+  // 选中某商品
+  selectGoods (e) {
+    const index = e.target.dataset.index
+    const { cartData, selectGoods } = this.data
+    // 判断是否已在selectGoods中
+    const goodsIndex = selectGoods.findIndex((goods) => {
+      return goods.goods._id === cartData[index].goods._id
+    })
+    if (goodsIndex > -1) {
+      selectGoods.splice(goodsIndex, 1)
+      this.setData({
+        selectGoods
+      })
+    } else {
+      selectGoods.push(JSON.parse(JSON.stringify(cartData[index])))
+      this.setData({
+        selectGoods
+      })
+    }
+  },
+
+  // 全选
+  selectAll () {
+    const { cartData, selectGoods } = this.data
+    // console.log(cartData.length === selectGoods.length)
+    if (cartData.length === selectGoods.length) {
+      this.setData({
+        selectGoods: []
+      })
+    } else {
+      this.setData({
+        selectGoods: JSON.parse(JSON.stringify(cartData))
+      })
+    }
   },
 
   /**
@@ -14,6 +51,54 @@ Page({
    */
   onLoad: function (options) {
     
+  },
+
+  // buy商品 先生成订单然后跳转到订单详情页
+  buy () {
+    const { selectGoods } = this.data
+    if (!selectGoods.length) return wx.showToast({
+      title: '请选中商品后再结算',
+      icon: 'none'
+    })
+  },
+
+  // 删除商品
+  delete () {
+    const { selectGoods } = this.data
+    if (!selectGoods.length) return wx.showToast({
+      title: '请选中商品后再删除',
+      icon: 'none'
+    })
+    const goodsArr = selectGoods.map(goods => goods.goods._id)
+    const that = this
+    wx.showModal({
+      title: '移除商品',
+      content: `是否从购物车中移除选中的商品`,
+      confirmColor: '#eb4450',
+      async success (res) {
+        if (res.confirm) {
+          // 确定
+          const token = wx.getStorageSync('token')
+          const result = await request('deleteCart', {
+            goodsArr
+          }, 'delete', {
+            authorization: token
+          })
+          if (result.data.code === 'ok') {
+            that.getCart()
+            wx.showToast({
+              title: '商品移除成功',
+              icon: 'none'
+            })
+            that.setData({
+              selectGoods: []
+            })
+          }
+        } else if (res.cancel) {
+          // 用户点击取消
+        }
+      }
+    })
   },
 
   // 改变购物车商品数量
