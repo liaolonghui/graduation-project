@@ -118,10 +118,10 @@ Page({
       icon: 'none',
       duration: 1500
     })
-    if (name.length >= 5) {
-      // 长度大于等于5就不让他添加
+    if (name.length >= 6) {
+      // 长度大于等于6就不让他添加
       return wx.showToast({
-        title: '分类名长度不得超过4',
+        title: '分类名长度不得超过5',
         icon: 'none',
         duration: 1500
       })
