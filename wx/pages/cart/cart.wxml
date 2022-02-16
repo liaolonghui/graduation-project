@@ -12,7 +12,9 @@
           ></text>
         </view>
         <view class="img">
-          <image src="{{item.goods.imgs[0].img_url}}"></image>
+          <navigator url="../goodsDetail/goodsDetail?goodsId={{item.goods._id}}">
+            <image src="{{item.goods.imgs[0].img_url}}"></image>
+          </navigator>
         </view>
         <view class="info">
           <view class="name">{{item.goods.name}}</view>

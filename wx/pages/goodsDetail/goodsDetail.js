@@ -103,6 +103,29 @@ Page({
   },
   // 购买 先生成订单然后跳转到订单详情页
   async buy () {
+    const token = wx.getStorageSync('token')
+    const goods = this.data.goods._id
+    const count = this.data.count
+
+    const result = await request('createOrder', {
+      goodsArr: [
+        {
+          goods,
+          count
+        }
+      ]
+    }, 'post', {
+      authorization: token
+    })
+
+    if (result.data.code === 'ok') {
+      this.setData({
+        countModalBool: false
+      })
+      wx.navigateTo({
+        url: '../userOrderDetail/userOrderDetail?orderId=' + result.data.orderId,
+      })
+    }
 
   },
 

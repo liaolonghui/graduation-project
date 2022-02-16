@@ -54,12 +54,39 @@ Page({
   },
 
   // buy商品 先生成订单然后跳转到订单详情页
-  buy () {
+  async buy () {
     const { selectGoods } = this.data
     if (!selectGoods.length) return wx.showToast({
       title: '请选中商品后再结算',
       icon: 'none'
     })
+    const goodsArr = selectGoods.map(goodsInfo => {
+      return {
+        goods: goodsInfo.goods._id,
+        count: goodsInfo.count
+      }
+    })
+    const token = wx.getStorageSync('token')
+    const result = await request('createOrder', {
+      goodsArr
+    }, 'post', {
+      authorization: token
+    })
+    // 订单生成后把购物车内对应的商品移除
+    if (result.data.code === 'ok') {
+      const goodsIdArr = selectGoods.map(goods => goods.goods._id)
+      await request('deleteCart', {
+        goodsArr: goodsIdArr
+      }, 'delete', {
+        authorization: token
+      })
+      this.setData({
+        selectGoods: []
+      })
+      wx.navigateTo({
+        url: '../userOrderDetail/userOrderDetail?orderId=' + result.data.orderId,
+      })
+    }
   },
 
   // 删除商品

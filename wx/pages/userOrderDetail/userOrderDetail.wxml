@@ -1,7 +1,3 @@
 <view class="order_detail">
-  <view class="order_list">
-    <view wx:for="{{orderArr}}" wx:key="index" class="order_item">
-      {{item}}
-    </view>
-  </view>
+  {{orderId}}
 </view>

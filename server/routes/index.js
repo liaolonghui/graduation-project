@@ -1,5 +1,3 @@
-const Goods = require('../models/Goods')
-
 module.exports = (app, SERVER_URL, baseCategories) => {
   const express = require('express')
   const axios = require('axios')
@@ -10,6 +8,8 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   // models
   const User = require('../models/User')
   const Category = require('../models/Category')
+  const Goods = require('../models/Goods')
+  const Order = require('../models/Order')
   
 
   const verifyAdmin = async (req, res, next) => {
@@ -28,6 +28,7 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     req.power = user.power // 权限
     req.cart = user.cart || [] // 购物车
     req.favorites = user.favorites || [] // 收藏
+    req.address = user.defaultAddress || ''
 
     await next()
 
@@ -104,7 +105,10 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   // 获取用户购物车信息
   router.get('/getCart', verifyAdmin, async (req, res) => {
     const id = req.userId
-    const { cart } = await User.findById(id).populate('cart.goods') || []
+    const { cart } = await User.findById(id).populate({
+      path: 'cart.goods',
+      select: 'name nowPrice imgs amount'
+    }) || []
 
     res.send({
       code: 'ok',
@@ -194,6 +198,75 @@ module.exports = (app, SERVER_URL, baseCategories) => {
 
   })
   // 生成订单    初始state为待付款
+  router.post('/createOrder', verifyAdmin, async (req, res) => {
+    // 接收 [{ goods: 商品id, count: 数量 }] 数组
+    // 通过商品id获取到：nowPrice，seller
+    // to: 地址需要使用user的defaultAddress，如果没有则先不设置，在用户支付时再要求用户设置自己的defaultAddress（支付时也支持用户修改）
+    
+    const buyer = req.userId // buyer
+    const to = req.address // to
+    const state = '待付款' // 初始订单状态
+    let totalPrice = 0 // 总价
+
+    const goodsArr = req.body.goodsArr
+
+    let goodsBox = [] // 订单的所有商品
+
+    for (let i = 0; i < goodsArr.length; i++) {
+
+      const goodsInfo = await Goods.findById(goodsArr[i].goods)
+      const goods = goodsInfo._id
+      const count = goodsArr[i].count
+      const price = goodsInfo.nowPrice
+
+      totalPrice += price * count
+      goodsBox.push({
+        goods,
+        count,
+        price
+      })
+
+    }
+
+    // 生成订单
+    const result = await Order.create({
+      buyer,
+      goodsBox,
+      totalPrice,
+      to,
+      state,
+    })
+
+    res.send({
+      code: 'ok',
+      orderId: result._id
+    })
+
+  })
+  // 用户设置自己的defaultAddress（传address）   如果传入了orderId就顺便把对应order的to修改
+  router.post('/changeAddress', verifyAdmin, async (req, res) => {
+    const userId = req.userId
+    const { address, orderId } = req.body
+
+    await User.findByIdAndUpdate(userId, {
+      $set: {
+        defaultAddress: address
+      }
+    })
+
+    if (orderId && orderId !== 'undefined') {
+      await Order.findByIdAndUpdate(orderId, {
+        $set: {
+          to: address
+        }
+      })
+    }
+
+    res.send({
+      code: 'ok'
+    })
+
+  })
   // 支付后      state改为待收货
   // 收货后      state改为待评价
   // 对商品评价（只有购买过才能评价）评价后将对应的订单改为已评价

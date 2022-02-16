@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    orderArr: [], // 要显示的订单id数组
+    orderId: '', // 要显示的订单id数组
   },
 
   /**
@@ -13,7 +13,7 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      orderArr: options.orderArr
+      orderId: options.orderId
     })
   },
 
