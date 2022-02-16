@@ -206,41 +206,49 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     const buyer = req.userId // buyer
     const to = req.address // to
     const state = '待付款' // 初始订单状态
-    let totalPrice = 0 // 总价
 
     const goodsArr = req.body.goodsArr
 
-    let goodsBox = [] // 订单的所有商品
+    let orderArr = [] // 订单的所有商品
 
     for (let i = 0; i < goodsArr.length; i++) {
 
       const goodsInfo = await Goods.findById(goodsArr[i].goods)
+      const seller = goodsInfo.seller
       const goods = goodsInfo._id
       const count = goodsArr[i].count
       const price = goodsInfo.nowPrice
+      const totalPrice = price * count
 
-      totalPrice += price * count
-      goodsBox.push({
+      // 生成订单
+      const result = await Order.create({
+        buyer,
+        seller,
         goods,
+        price,
         count,
-        price
+        totalPrice,
+        to,
+        state,
       })
+      if (result) {
+        orderArr.push(result._id)
+      }
 
     }
 
-    // 生成订单
-    const result = await Order.create({
-      buyer,
-      goodsBox,
-      totalPrice,
-      to,
-      state,
-    })
-
     res.send({
       code: 'ok',
-      orderId: result._id
+      orderArr
     })
+
+  })
+  // 用户查看自己的所有订单
+  router.get('/getOrderList', verifyAdmin, async (req, res) => {
+
+  })
+  // 用户查看自己的订单详情
+  router.get('/getOrderDetail', verifyAdmin, async (req, res) => {
 
   })
   // 用户设置自己的defaultAddress（传address）   如果传入了orderId就顺便把对应order的to修改
@@ -267,9 +275,40 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     })
 
   })
-  // 支付后      state改为待收货
+  // 支付后      state改为待发货
+  router.post('pay', verifyAdmin, async (req, res) => {
+    const userId = req.userId
+    const { orderId } = req.body // 订单id
+    const state = '待收货'
+
+    const order = Order.findById(orderId)
+    if (order.buyer === userId && to) {
+      // 这里设置为只有订单的购买者才能支付 并且 订单必须有to（即收货地址）才行
+      await Order.findByIdAndUpdate(orderId, {
+        $set: {
+          state
+        }
+      })
+    }
+
+    res.send({
+      code: 'ok',
+      msg: '支付成功'
+    })
+
+  })
+  // 商家发货后  state改为待收货
+  router.post('delivery', verifyAdmin, async (req, res) => {
+
+  })
   // 收货后      state改为待评价
-  // 对商品评价（只有购买过才能评价）评价后将对应的订单改为已评价
+  router.post('takeOver', verifyAdmin, async (req, res) => {
+
+  })
+  // 对商品评价（只有购买过并且已收货才能评价）评价后将对应的订单state改为已评价
+  router.post('appraise', verifyAdmin, async (req, res) => {
+
+  })
 
 
   // 用户搜索商品  只显示state为true的

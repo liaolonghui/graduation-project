@@ -115,9 +115,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-right: 2rpx solid #f1f1f1;
+}
+.operation_wrap .operation_item:nth-child(4n) {
+  border-right: none;
+}
+.operation_wrap .operation_item > text {
+  font-size: 30rpx;
 }
 .operation_wrap .operation_item > .iconfont {
-  font-size: 80rpx;
+  font-size: 60rpx;
   margin: 25rpx 0;
 }
 .other_operation {

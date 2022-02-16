@@ -121,6 +121,25 @@ Page({
       url: '../goodsRelease/goodsRelease',
     })
   },
+  // 去打包发货页
+  togoodsDelivery () {
+    const nickName = this.data.userInfo.nickName
+    if (!nickName) {
+      // 未登录则跳转至登录页
+      wx.navigateTo({
+        url: '../login/login',
+      })
+      wx.showToast({
+        title: '您还未登录，请先登录！',
+        icon: 'none',
+        duration: 1500
+      })
+      return
+    }
+    wx.navigateTo({
+      url: '../goodsDelivery/goodsDelivery',
+    })
+  },
   // 用户管理  管理员专属
   toUserManagement () {
     const {nickName, power} = this.data.userInfo

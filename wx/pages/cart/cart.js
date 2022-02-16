@@ -84,7 +84,7 @@ Page({
         selectGoods: []
       })
       wx.navigateTo({
-        url: '../userOrderDetail/userOrderDetail?orderId=' + result.data.orderId,
+        url: '../userOrderDetail/userOrderDetail?orderArr=' + result.data.orderArr,
       })
     }
   },

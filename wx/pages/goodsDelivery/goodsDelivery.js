@@ -1,20 +1,18 @@
-// pages/userOrderDetail/userOrderDetail.js
+// pages/goodsDelivery/goodsDelivery.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    orderArr: '', // 要显示的订单id数组
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      orderArr: options.orderArr.split(',')
-    })
+
   },
 
   /**

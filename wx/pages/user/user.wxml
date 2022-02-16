@@ -40,6 +40,15 @@
         </navigator>
         <navigator
           class="order_type_item"
+          url="../userOrder/userOrder?orderType=待发货"
+        >
+          <view class="order_type_item">
+            <text class="iconfont icon-daifahuo"></text>            
+            <text>待发货</text>
+          </view>
+        </navigator>
+        <navigator
+          class="order_type_item"
           url="../userOrder/userOrder?orderType=待收货"
         >
           <view class="order_type_item">
@@ -54,15 +63,6 @@
           <view class="order_type_item">
             <text class="iconfont icon-daipingjia"></text>
             <text>待评价</text>
-          </view>
-        </navigator>
-        <navigator
-          class="order_type_item"
-          url="../userOrder/userOrder?orderType=已评价"
-        >
-          <view class="order_type_item">
-            <text class="iconfont icon-daifahuo"></text>            
-            <text>已评价</text>
           </view>
         </navigator>
       </view>
@@ -87,6 +87,10 @@
           <text class="iconfont icon-fabu"></text>
           <text>发布商品</text>
         </view>
+        <view class="operation_item" bindtap="togoodsDelivery">
+          <text class="iconfont icon-dabaofahuo"></text>
+          <text>打包发货</text>
+        </view>
       </view>
       <!-- other为管理员专属 -->
       <view class="other_operation">
@@ -102,6 +106,8 @@
           <text class="iconfont icon-shenhe"></text>
           <text>商品审核</text>
         </view>
+        <!-- 占位 -->
+        <view class="operation_item"></view>
       </view>
     </view>
   </view>
