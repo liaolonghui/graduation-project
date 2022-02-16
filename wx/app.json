@@ -15,7 +15,7 @@
     "pages/userFavorites/userFavorites",
     "pages/goodsAdd/goodsAdd",
     "pages/userOrder/userOrder",
-    "pages/goodsDelivery/goodsDelivery"
+    "pages/userOrderDelivery/userOrderDelivery"
   ],
   "window": {
     "backgroundTextStyle": "light",

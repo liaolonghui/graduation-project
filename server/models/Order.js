@@ -17,11 +17,12 @@ const schema = new mongoose.Schema({
   count: { type: Number }, // 数量
   price: { type: Number }, // 单价（购买时的价格）
   state: { // 订单状态
-    type: String // 有5种状态：待付款，待发货，待收货，待评价，已评价
+    type: String // 有6种状态：待付款，已取消，待发货，待收货，待评价，已评价
   },
   totalPrice: { type: Number }, // 价格（购买时的总价格）
+  to: { type: String }, // 地址  （在支付前必须填写）
   freight: {type: Number}, // 运费
-  to: { type: String }, // 地址
+  trackingNumber: { type: String }, // 快递单号 （由商家在发货时填写）
 })
 
 module.exports = mongoose.model('Order', schema)

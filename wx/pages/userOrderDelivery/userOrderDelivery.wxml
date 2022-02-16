@@ -1,4 +1,4 @@
-<view class="user_order">
+<view class="order_delivery">
   <!-- order type -->
   <view bindtap="changeType" class="order_type">
     <view wx:for="{{types}}" wx:key="index" data-type="{{item}}" class="type_item {{orderType === item ? 'active' : ''}}">
@@ -7,7 +7,7 @@
   </view>
   <!-- order list -->
   <view class="order_list">
-    <view wx:for="{{orderList}}" wx:key="_id" class="order_item" bindtap="toOrderDetail" data-id="{{item._id}}">
+    <view wx:for="{{orderList}}" wx:key="_id" class="order_item" data-id="{{item._id}}">
       <!-- 订单信息 -->
       <view class="info">
         <view class="img">
@@ -24,9 +24,8 @@
       <!-- 合计 与 如果是待付款订单则显示‘取消订单’‘去支付’的快捷按钮 -->
       <view class="other_info">
         <view class="total">合计 <text style="color: red;">￥{{item.totalPrice}}</text></view>
-        <view class="operation" wx:if="{{ item.state === '待付款' }}">
-          <view catchtap="cancelOrder" data-id="{{item._id}}" class="btn cancel">取消订单</view>
-          <view catchtap="payOrder" data-id="{{item._id}}" class="btn pay">去支付</view>
+        <view class="operation" wx:if="{{ item.state === '待发货' }}">
+          <view catchtap="deliveryOrder" data-id="{{item._id}}" class="btn delivery">发货</view>
         </view>
       </view>
     </view>

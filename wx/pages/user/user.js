@@ -137,7 +137,7 @@ Page({
       return
     }
     wx.navigateTo({
-      url: '../goodsDelivery/goodsDelivery',
+      url: '../userOrderDelivery/userOrderDelivery',
     })
   },
   // 用户管理  管理员专属

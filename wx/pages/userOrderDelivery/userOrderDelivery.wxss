@@ -1,31 +1,31 @@
-.user_order {
+.order_delivery {
   min-height: 100vh;
   background-color: #f1f1f1;
 }
-.user_order .order_type {
+.order_delivery .order_type {
   display: flex;
   align-items: center;
   text-align: center;
   border-bottom: 1rpx solid #ccc;
   background-color: #fff;
 }
-.user_order .type_item {
+.order_delivery .type_item {
   flex: 1;
   padding: 20rpx 0;
   border-bottom: 5rpx solid transparent;
 }
-.user_order .type_item.active {
+.order_delivery .type_item.active {
   color: red;
   border-bottom: 5rpx solid red;
 }
 
-.user_order .order_item {
+.order_delivery .order_item {
   padding: 20rpx 20rpx 10rpx 20rpx;
   border-bottom: 2rpx solid #ccc;
   background-color: #fff;
   margin: 20rpx 0;
 }
-.user_order .order_item .info {
+.order_delivery .order_item .info {
   display: flex;
   align-items: center;
   border-bottom: 1rpx solid #f1f1f1;
@@ -63,14 +63,10 @@
 }
 .order_item .other_info .btn {
   margin: 0 10rpx;
-  padding: 8rpx 20rpx;
-  border: 2rpx solid #999;
+  padding: 10rpx 40rpx;
   border-radius: 10rpx;
 }
-.order_item .other_info .btn.cancel {
-  color: #333;
-}
-.order_item .other_info .btn.pay {
+.order_item .other_info .btn.delivery {
   color: #fff;
   background-color: red;
   border-color: red;

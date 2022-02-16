@@ -243,13 +243,34 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     })
 
   })
-  // 用户查看自己的所有订单
+  // 用户查看自己的所有订单  type参数是 seller 则是返回商家订单
   router.get('/getOrderList', verifyAdmin, async (req, res) => {
+
+    const type = req.query.type
+    const userId = req.userId
+
+    let searchObj = {}
+    // type参数是 seller 则是返回商家订单  不返回‘待付款’和‘已取消’
+    if (type === 'seller') {
+      searchObj.seller = userId
+      searchObj.state = {
+        $not: /^(待付款|已取消)$/
+      }
+    } else {
+      searchObj.buyer = userId
+    }
+
+    const orders = await Order.find(searchObj).populate('goods').sort({ _id: -1 })
+
+    res.send({
+      code: 'ok',
+      orders
+    })
 
   })
   // 用户查看自己的订单详情
   router.get('/getOrderDetail', verifyAdmin, async (req, res) => {
-
+    // ...
   })
   // 用户设置自己的defaultAddress（传address）   如果传入了orderId就顺便把对应order的to修改
   router.post('/changeAddress', verifyAdmin, async (req, res) => {
@@ -275,39 +296,83 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     })
 
   })
-  // 支付后      state改为待发货
-  router.post('pay', verifyAdmin, async (req, res) => {
+
+  // 订单state相关的各种操作
+  // 只有在订单支付之前才能取消订单   state改为已取消
+  router.post('/cancel', verifyAdmin, async (req, res) => {
     const userId = req.userId
     const { orderId } = req.body // 订单id
-    const state = '待收货'
+    const state = '已取消'
 
-    const order = Order.findById(orderId)
-    if (order.buyer === userId && to) {
-      // 这里设置为只有订单的购买者才能支付 并且 订单必须有to（即收货地址）才行
+    const order = await Order.findById(orderId)
+    if (order.state !== '待付款') {
+      return res.send({
+        code: 'bad',
+        msg: '订单已支付,无法取消'
+      })
+    }
+    // 这里设置为只有订单的购买者才能取消
+    if (order.buyer.toString() === userId.toString()) {
       await Order.findByIdAndUpdate(orderId, {
         $set: {
           state
         }
       })
+      res.send({
+        code: 'ok',
+        msg: '订单取消成功'
+      })
+    } else {
+      res.send({
+        code: 'bad',
+        msg: '必须本人账号才能取消'
+      })
     }
-
-    res.send({
-      code: 'ok',
-      msg: '支付成功'
-    })
-
   })
-  // 商家发货后  state改为待收货
-  router.post('delivery', verifyAdmin, async (req, res) => {
+  // 支付后      state改为待发货
+  router.post('/pay', verifyAdmin, async (req, res) => {
+    const userId = req.userId // 这里只是模拟支付，只是修改了字段没有真实支付
+    const { orderId } = req.body // 订单id
+    const state = '待发货'
 
+    const order = await Order.findById(orderId)
+    if (order.state !== '待付款') {
+      return res.send({
+        code: 'bad',
+        msg: '订单已取消或已支付'
+      })
+    }
+    if (order && order.to) {
+      // 这里设置为订单必须有to（即收货地址）才行
+      await Order.findByIdAndUpdate(orderId, {
+        $set: {
+          state
+        }
+      })
+      res.send({
+        code: 'ok',
+        msg: '支付成功'
+      })
+    } else {
+      res.send({
+        code: 'bad',
+        msg: '收货地址未填写'
+      })
+    }
+  })
+  // 商家发货后 （需要商家提供快递单号）  state改为待收货
+  router.post('/delivery', verifyAdmin, async (req, res) => {
+    const state = '待收货'
+    const { trackingNumber } = req.body
   })
   // 收货后      state改为待评价
-  router.post('takeOver', verifyAdmin, async (req, res) => {
-
+  router.post('/takeOver', verifyAdmin, async (req, res) => {
+    const state = '待评价'
   })
   // 对商品评价（只有购买过并且已收货才能评价）评价后将对应的订单state改为已评价
-  router.post('appraise', verifyAdmin, async (req, res) => {
-
+  router.post('/appraise', verifyAdmin, async (req, res) => {
+    // 评论的结构 { name: String, time: timestamp, content: String }
+    const state = '已评价'
   })
 
 
