@@ -31,8 +31,6 @@
 .goods_release .goods_img image {
   width: 120rpx;
   height: 120rpx;
-  border: 2rpx solid #ccc;
-  border-radius: 50%;
 }
 .goods_release .delete_goods_btn button {
   width: 200rpx;
