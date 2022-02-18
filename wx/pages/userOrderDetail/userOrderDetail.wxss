@@ -1,1 +1,104 @@
-/* pages/userOrderDetail/userOrderDetail.wxss */
+.order_detail {
+  padding-top: 20rpx;
+  padding-bottom: 120rpx;
+  min-height: 100vh;
+  background-color: #f1f1f1;
+  box-sizing: border-box;
+}
+.order_detail .order_to_wrap {
+  margin-bottom: 20rpx;
+  background-color: #fff;
+}
+.order_detail .order_to {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+}
+.order_detail .order_to_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 84rpx;
+}
+.order_detail .order_to_info text {
+  font-size: 28rpx;
+  color: #333;
+}
+.order_detail .not_to {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 120rpx;
+  padding: 0 50rpx;
+  font-size: 35rpx;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.order_detail .order_item_wrap {
+  margin-bottom: 20rpx;
+  background-color: #fff;
+}
+.order_detail .total_price {
+  height: 70rpx;
+  padding-right: 50rpx;
+  line-height: 70rpx;
+  text-align: right;
+}
+.order_detail .order_item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #f1f1f1;
+}
+.order_detail .order_item image {
+  max-width: 220rpx;
+  max-height: 220rpx;
+}
+.order_detail .order_item .info {
+  padding-left: 20rpx;
+}
+.order_item .info .name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.order_detail .order_item .price_count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20rpx;
+  padding-right: 40rpx;
+}
+
+.order_detail .operation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 120rpx;
+  width: 100%;
+  padding-left: 30rpx;
+  border-top: 1rpx solid #ddd;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+.order_detail .operation .pay_btn {
+  width: 240rpx;
+  height: 120rpx;
+  line-height: 120rpx;
+  text-align: center;
+  color: #fff;
+  background-color: red;
+}
+.order_detail .operation .order_state {
+  width: 240rpx;
+  text-align: center;
+  color: red;
+}

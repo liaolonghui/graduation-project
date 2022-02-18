@@ -1,3 +1,83 @@
 <view class="order_detail">
-  {{orderArr}}
+  <!-- address to -->
+  <view bindtap="changeTo" class="order_to_wrap">
+    <view class="order_to" wx:if="{{orders[0].to}}">
+      <view class="order_to_info">
+        <view>
+          <text>{{ orders[0].to.name }}</text>
+          <text style="padding-left: 30rpx;">{{ orders[0].to.tel }}</text>
+        </view>
+        <view>
+          <text class="iconfont icon-dingwei">{{ orders[0].to.address }}</text>
+        </view>
+      </view>
+      <view>
+        <text style="font-size: 40rpx; color: #999;" class="iconfont icon-right"></text>
+      </view>
+    </view>
+    <!-- 如果没选地址 -->
+    <view class="not_to" wx:else>
+      <text>请先选择您的收货地址</text>
+      <text style="font-size: 40rpx; color: #999;" class="iconfont icon-right"></text>
+    </view>
+  </view>
+  <!-- orders -->
+  <view class="order_wrap">
+    <view class="order_list">
+      <!-- order item -->
+      <view class="order_item_wrap" wx:for="{{ orders }}" wx:key="_id">
+        <!-- 信息 -->
+        <view class="order_item">
+          <!-- img -->
+          <view class="img">
+            <image src="{{item.goods.imgs[0].img_url}}"></image>
+          </view>
+          <!-- info -->
+          <view class="info">
+            <view class="name">{{ item.goods.name }}</view>
+            <view class="price_count">
+              <view style="color: red;">
+                ￥<text style="font-size: 38rpx; color: red;">{{ item.price }}</text>
+              </view>
+              <view style="color: #666;">X{{ item.count }}</view>
+            </view>
+          </view>
+        </view>
+        <!-- 合计 -->
+        <view class="total_price">
+          商品合计: <text style="color: red;">￥{{item.totalPrice}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- operation -->
+  <view class="operation">
+    <!-- 总计 -->
+    <view class="order_total">
+      <view>
+        <text style="font-weight: 550; color: #333;">实付金额:</text>
+        <text style="color: red; font-size: 30rpx;">￥</text>
+        <text style="color: red; font-size: 40rpx;">{{filter.sum(orders)}}</text>
+      </view>
+    </view>
+    <!-- 支付 -->
+    <view wx:if="{{orders[0].state === '待付款'}}">
+      <view bindtap="pay" class="pay_btn">去支付</view>
+    </view>
+    <!-- 状态 -->
+    <view wx:else>
+      <view class="order_state">{{orders[0].state }}</view>
+    </view>
+  </view>
 </view>
+
+<wxs module="filter">
+  function sum (orders) {
+    var sum = 0
+    orders.forEach(function(o) {
+      sum += o.totalPrice
+    })
+    return sum
+  }
+  module.exports.sum = sum
+</wxs>

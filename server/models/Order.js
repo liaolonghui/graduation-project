@@ -20,7 +20,11 @@ const schema = new mongoose.Schema({
     type: String // 有6种状态：待付款，已取消，待发货，待收货，待评价，已评价
   },
   totalPrice: { type: Number }, // 价格（购买时的总价格）
-  to: { type: String }, // 地址  （在支付前必须填写）
+  to: {
+    name: { type: String },
+    tel: { type: String },
+    address: { type: String },
+  }, // 收货人姓名，电话，地址等  （在支付前必须填写）
   freight: {type: Number}, // 运费
   trackingNumber: { type: String }, // 快递单号 （由商家在发货时填写）
 })

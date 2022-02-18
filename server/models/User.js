@@ -24,8 +24,10 @@ const schema = new mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'Goods'
   }],
-  defaultAddress: { // 默认地址
-    type: String, 
+  defaultTo: { // 默认收货人姓名，电话，地址等
+    name: { type: String },
+    tel: { type: String },
+    address: { type: String },
   }
 })
 
