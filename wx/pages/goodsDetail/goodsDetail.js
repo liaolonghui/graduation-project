@@ -120,6 +120,7 @@ Page({
 
     if (result.data.code === 'ok') {
       this.setData({
+        count: 1,
         countModalBool: false
       })
       wx.navigateTo({
