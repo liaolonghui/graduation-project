@@ -47,6 +47,15 @@
   line-height: 70rpx;
   text-align: right;
 }
+.order_detail .tracking_number {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70rpx;
+  padding: 0 50rpx;
+  line-height: 70rpx;
+  border-bottom: 2rpx solid #f1f1f1;
+}
 .order_detail .order_item {
   display: flex;
   align-items: center;

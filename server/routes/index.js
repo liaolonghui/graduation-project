@@ -28,6 +28,7 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     req.power = user.power // 权限
     req.cart = user.cart || [] // 购物车
     req.favorites = user.favorites || [] // 收藏
+    req.name = user.nickName
     req.to = user.defaultTo || ''
 
     await next()
@@ -268,22 +269,31 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     })
 
   })
-  // 用户查看自己的订单详情  参数orderArr（即可传入多个orderId）
+  // 用户或商家查看自己的订单详情  参数orderArr（即可传入多个orderId）
   router.post('/getOrderDetail', verifyAdmin, async (req, res) => {
     const userId = req.userId
     const orderArr = req.body.orderArr
     
+    // 订单数组
     let orders = []
+    // 是否是买家
+    let isBuyer = false
     for (let i = 0; i < orderArr.length; i++) {
       const order = await Order.findById(orderArr[i]).populate('goods')
-      if (order && order.buyer.toString() === userId.toString()) {
+      if (order.buyer.toString() === userId.toString()) {
+        // 是否是买家
+        isBuyer = true
+      }
+      if (order && (order.buyer.toString() === userId.toString() || order.seller.toString() === userId.toString())) {
+        // 只有订单的卖家买家能查看
         orders.push(order)
       }
     }
 
     res.send({
       code: 'ok',
-      orders
+      orders,
+      isBuyer
     })
 
   })
@@ -367,6 +377,16 @@ module.exports = (app, SERVER_URL, baseCategories) => {
           state
         }
       })
+      // 支付后给对应商品修改amount sale
+      const goods = await Goods.findById(order.goods)
+      const amount = parseInt(goods.amount || 0) - parseInt(order.count)
+      const sale = parseInt(goods.sale || 0) + parseInt(order.count)
+      await Goods.findByIdAndUpdate(order.goods, {
+        $set: {
+          amount,
+          sale
+        }
+      })
       res.send({
         code: 'ok',
         msg: '支付成功'
@@ -381,16 +401,70 @@ module.exports = (app, SERVER_URL, baseCategories) => {
   // 商家发货后 （需要商家提供快递单号）  state改为待收货
   router.post('/delivery', verifyAdmin, async (req, res) => {
     const state = '待收货'
-    const { trackingNumber } = req.body
+    const { trackingNumber, orderId } = req.body
+
+    const result = await Order.findByIdAndUpdate(orderId, {
+      $set: {
+        state,
+        trackingNumber
+      }
+    })
+
+    res.send({
+      code: 'ok',
+      result
+    })
+
   })
   // 收货后      state改为待评价
   router.post('/takeOver', verifyAdmin, async (req, res) => {
     const state = '待评价'
+    const orderId = req.body.orderId
+
+    const result = await Order.findByIdAndUpdate(orderId, {
+      $set: {
+        state
+      }
+    })
+
+    res.send({
+      code: 'ok',
+      msg: '收货成功'
+    })
   })
   // 对商品评价（只有购买过并且已收货才能评价）评价后将对应的订单state改为已评价
   router.post('/appraise', verifyAdmin, async (req, res) => {
     // 评论的结构 { name: String, time: timestamp, content: String }
     const state = '已评价'
+    const name = req.name
+    const { orderId, content } = req.body
+    const time = new Date().getTime()
+    
+    // comment
+    const comment = {
+      name,
+      time,
+      content
+    }
+
+    const order = await Order.findById(orderId) // 订单
+    await Order.findByIdAndUpdate(order, {
+      $set: {
+        state
+      }
+    })
+    const goods = await Goods.findById(order.goods)
+    await Goods.findByIdAndUpdate(order.goods, {
+      $set: {
+        comments: [comment].concat(goods.comments)
+      }
+    })
+
+    res.send({
+      code: 'ok',
+      msg: '评价成功'
+    })
+
   })
 
 

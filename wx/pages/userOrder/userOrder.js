@@ -11,6 +11,36 @@ Page({
     orderType: '全部',
     orders: [], // 全部订单
     orderList: [], // 筛选后显示的对应state订单
+    comment: '', // 评论
+    orderId: '', // 评论的订单id
+    commentModalBool: true, // 评论的对话框是否隐藏 true隐藏
+  },
+
+  // changeComment
+  changeComment (e) {
+    this.setData({
+      comment: e.detail.value
+    })
+  },
+
+  // 显示对话框
+  showCommentModal (e) {
+    this.setData({
+      comment: '',
+      orderId: e.currentTarget.dataset.id,
+      commentModalBool: false
+    })
+  },
+  // 隐藏评论对话框
+  hiddenCommentModal () {
+    this.setData({
+      commentModalBool: true
+    })
+  },
+
+  // stopTouch
+  stopTouch () {
+    return
   },
 
   // 修改orderType
@@ -101,6 +131,58 @@ Page({
           })
         }
       }
+    })
+  },
+
+  // 收货
+  takeOver (e) {
+    const that = this
+    wx.showModal({
+      title: '收货',
+      content: `是否已收到货物？`,
+      confirmColor: '#eb4450',
+      async success (res) {
+        if (res.confirm) {
+          const token = wx.getStorageSync('token')
+          const orderId = e.currentTarget.dataset.id
+          const result = await request('takeOver', {
+            orderId
+          }, 'post', {
+            authorization: token
+          })
+          if (result.data && result.data.code === 'ok') {
+            that.getOrders()
+          }
+          wx.showToast({
+            title: result.data.msg,
+            icon: 'none'
+          })
+        }
+      }
+    })
+  },
+
+  // 评价
+  async appraise () {
+    const { orderId, comment } = this.data
+    const token = wx.getStorageSync('token')
+    const { data: result } = await request('appraise', {
+      orderId,
+      content: comment
+    }, 'post', {
+      authorization: token
+    })
+    if (result && result.code === 'ok') {
+      wx.showToast({
+        title: '评论发送成功',
+        icon: 'none',
+        duration: 1500
+      })
+      this.getOrders()
+    }
+    this.setData({
+      commentModalBool: true,
+      comment: ''
     })
   },
 

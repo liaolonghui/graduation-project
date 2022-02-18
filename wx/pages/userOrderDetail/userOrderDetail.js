@@ -6,8 +6,16 @@ Page({
    * 页面的初始数据
    */
   data: {
+    isBuyer: false, // 是否是买家
     orders: [], // 订单数组
     ordersId: [], // 订单的id数组
+  },
+
+  // 去商品详情页
+  toGoodsDetail (e) {
+    wx.navigateTo({
+      url: '../goodsDetail/goodsDetail?goodsId=' + e.currentTarget.dataset.id,
+    })
   },
 
   /**
@@ -107,6 +115,7 @@ Page({
     })
     if (res && res.code === 'ok') {
       this.setData({
+        isBuyer: res.isBuyer,
         orders: res.orders
       })
     }

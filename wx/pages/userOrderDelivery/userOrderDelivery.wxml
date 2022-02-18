@@ -7,7 +7,7 @@
   </view>
   <!-- order list -->
   <view class="order_list">
-    <view wx:for="{{orderList}}" wx:key="_id" class="order_item" data-id="{{item._id}}">
+    <view wx:for="{{orderList}}" wx:key="_id" class="order_item" bindtap="toOrderDetail" data-id="{{item._id}}">
       <!-- 订单信息 -->
       <view class="info">
         <view class="img">
@@ -21,12 +21,28 @@
           </view>
         </view>
       </view>
-      <!-- 合计 与 如果是待付款订单则显示‘取消订单’‘去支付’的快捷按钮 -->
+      <!-- 合计 与 如果是待发货订单则显示‘发货’的快捷按钮 -->
       <view class="other_info">
         <view class="total">合计 <text style="color: red;">￥{{item.totalPrice}}</text></view>
         <view class="operation" wx:if="{{ item.state === '待发货' }}">
           <view catchtap="deliveryOrder" data-id="{{item._id}}" class="btn delivery">发货</view>
         </view>
+      </view>
+    </view>
+  </view>
+  <!-- 点击发货时显示出来让商家填写 快递单号 -->
+  <view catchtouchmove="stopTouch" hidden="{{ trackModalBool }}" class="track_modal_wrap">
+    <!-- mask -->
+    <view class="mask" bindtap="hiddenTrackModal"></view>
+    <!-- modal -->
+    <view class="track_modal">
+      <view class="track_title">请填写该订单的快递单号</view>
+      <view class="track_input">
+        <input value="{{trackingNumber}}" bindinput="changeTrackingNumber" type="text" />
+      </view>
+      <view class="track_btn">
+        <view bindtap="hiddenTrackModal">取消</view>
+        <view bindtap="delivery">确定</view>
       </view>
     </view>
   </view>

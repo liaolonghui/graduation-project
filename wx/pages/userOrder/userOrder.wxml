@@ -24,10 +24,35 @@
       <!-- 合计 与 如果是待付款订单则显示‘取消订单’‘去支付’的快捷按钮 -->
       <view class="other_info">
         <view class="total">合计 <text style="color: red;">￥{{item.totalPrice}}</text></view>
+        <!-- 待付款时显示 -->
         <view class="operation" wx:if="{{ item.state === '待付款' }}">
           <view catchtap="cancelOrder" data-id="{{item._id}}" class="btn cancel">取消订单</view>
           <view catchtap="payOrder" data-id="{{item._id}}" class="btn pay">去支付</view>
         </view>
+        <!-- 待收货时显示 -->
+        <view class="operation" wx:if="{{ item.state === '待收货' }}">
+          <view catchtap="takeOver" data-id="{{item._id}}" class="btn take_over">收货</view>
+        </view>
+        <!-- 待评价时显示 -->
+        <view class="operation" wx:if="{{ item.state === '待评价' }}">
+          <view catchtap="showCommentModal" data-id="{{item._id}}" class="btn appraise">评价</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 点击评价时显示出来让用户填写 -->
+  <view catchtouchmove="stopTouch" hidden="{{ commentModalBool }}" class="comment_modal_wrap">
+    <!-- mask -->
+    <view class="mask" bindtap="hiddenCommentModal"></view>
+    <!-- modal -->
+    <view class="comment_modal">
+      <view class="comment_title">请输入评价内容并发送</view>
+      <view class="comment_input">
+        <textarea value="{{comment}}" bindinput="changeComment" type="text" />
+      </view>
+      <view class="comment_btn">
+        <view bindtap="hiddenCommentModal">取消</view>
+        <view bindtap="appraise">发送</view>
       </view>
     </view>
   </view>

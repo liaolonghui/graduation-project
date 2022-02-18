@@ -27,7 +27,7 @@
       <!-- order item -->
       <view class="order_item_wrap" wx:for="{{ orders }}" wx:key="_id">
         <!-- 信息 -->
-        <view class="order_item">
+        <view bindtap="toGoodsDetail" data-id="{{item.goods._id}}" class="order_item">
           <!-- img -->
           <view class="img">
             <image src="{{item.goods.imgs[0].img_url}}"></image>
@@ -42,6 +42,11 @@
               <view style="color: #666;">X{{ item.count }}</view>
             </view>
           </view>
+        </view>
+        <!-- 快递单号 -->
+        <view wx:if="{{ item.state !== '待付款' && item.state !== '已取消' }}" class="tracking_number">
+          <text>快递单号: </text>
+          <text>{{item.trackingNumber || '等待商家发货'}}</text>
         </view>
         <!-- 合计 -->
         <view class="total_price">

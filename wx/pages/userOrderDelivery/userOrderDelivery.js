@@ -7,10 +7,20 @@ Page({
    * 页面的初始数据
    */
   data: {
-    types: ['全部', '待发货', '待收货', '待评价'],
+    types: ['全部', '待发货', '待收货', '待评价', '已评价'],
     orderType: '全部',
     orders: [], // 全部订单
     orderList: [], // 筛选后显示的对应state订单
+    trackModalBool: true, // 填写快递单号的对话框  （是否隐藏，true则是隐藏）
+    orderId: '', // 快递单号对应的订单号
+    trackingNumber: '', // 快递单号
+  },
+
+  // 去订单详情页
+  toOrderDetail (e) {
+    wx.navigateTo({
+      url: '../userOrderDetail/userOrderDetail?orderArr=' + [e.currentTarget.dataset.id],
+    })
   },
 
   // 修改orderType
@@ -30,6 +40,18 @@ Page({
     }
   },
 
+  // stopTouch
+  stopTouch () {
+    return false
+  },
+
+  // changeTrackingNumber
+  changeTrackingNumber (e) {
+    this.setData({
+      trackingNumber: e.detail.value
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -37,9 +59,41 @@ Page({
     
   },
 
-  // 订单发货
+  // 订单发货 （显示填写快递单号的对话框）
   deliveryOrder (e) {
     const orderId = e.currentTarget.dataset.id
+    this.setData({
+      orderId,
+      trackModalBool: false
+    })
+  },
+  hiddenTrackModal () {
+    this.setData({
+      trackModalBool: true
+    })
+  },
+  async delivery () {
+    // 发货
+    const { orderId, trackingNumber } = this.data
+    const token = wx.getStorageSync('token')
+    const { data: result } = await request('delivery', {
+      orderId,
+      trackingNumber
+    }, 'post', {
+      authorization: token
+    })
+    if (result && result.code === 'ok') {
+      wx.showToast({
+        title: '发货成功',
+        icon: 'none',
+        duration: 1000
+      })
+      this.getOrders()
+    }
+    this.setData({
+      trackModalBool: true,
+      trackingNumber: ''
+    })
   },
 
   // 获取商家订单
