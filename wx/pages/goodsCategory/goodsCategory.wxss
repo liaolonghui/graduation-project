@@ -63,7 +63,7 @@
   font-weight: 540;
   border-radius: 25rpx;
   border: 2rpx solid #ccc;
-  background-color: #f6f6f6;
+  background-color: #fefefe;
 }
 
 
@@ -92,8 +92,10 @@
   transform: translateX(-50%);
   min-width: 500rpx;
   padding: 60rpx;
-  border-radius: 30rpx;
+  padding-bottom: 120rpx;
+  border-radius: 20rpx;
   background-color: #fff;
+  overflow: hidden;
 }
 
 /* dialog里的输入框按钮等样式 */
@@ -136,14 +138,22 @@
 }
 .dialog .category_btn_area {
   display: flex;
-  margin-top: 50rpx;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 .dialog .category_btn_area button {
-  width: 230rpx;
-  padding: 20rpx;
+  flex: 1;
+  height: 100rpx;
+  padding: 0;
+  line-height: 100rpx;
+  border: none;
+  border-radius: none !important;
+  box-sizing: border-box;
 }
 .dialog .category_btn_area button.blue_btn {
-  margin-left: 10rpx;
   background-color: skyblue;
   color: #fff;
 }

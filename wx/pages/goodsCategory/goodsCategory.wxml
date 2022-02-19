@@ -53,8 +53,8 @@
           <input type="text" value="{{categoryName}}" bindinput="categoryNameChange" placeholder="请填写分类名" />
         </view>
         <view class="category_btn_area">
-          <button type="primary" formType="submit">确认</button>
           <button class="blue_btn" bindtap="cancelCategory">取消</button>
+          <button type="primary" formType="submit">确认</button>
         </view>
       </form>
     </view>

@@ -35,6 +35,10 @@ Page({
             power: res.data.power
           }
         })
+      } else {
+        this.setData({
+          userInfo: {}
+        })
       }
     }
   },

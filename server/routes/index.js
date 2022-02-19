@@ -623,7 +623,7 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     })
 
   })
-  // 删号     只有管理员可以    (因为前期设计问题，所以没有弄成封号功能，而是直接删号)
+  // 删号     只有管理员可以 （admin用户不允许删除）    (因为前期设计问题，所以没有弄成封号功能，而是直接删号)
   router.delete('/deleteUser', verifyAdmin, async (req, res) => {
     const power = req.power
 
@@ -633,6 +633,15 @@ module.exports = (app, SERVER_URL, baseCategories) => {
     })
 
     const id = req.body.id
+    const user = await User.findById(id)
+    if (user.accountNumber === 'admin') {
+      // admin不能删
+      return res.send({
+        code: 'bad',
+        msg: '该用户不允许删除'
+      })
+    }
+
     const result = await User.findByIdAndDelete(id)
     res.send({
       code: 'ok',
